@@ -39,7 +39,34 @@ public class ServerThread implements Runnable {
 			String login=s.replaceFirst("LOGIN: ", "").replaceFirst(",.+","");
 			String pass=s.replaceFirst(".+, PASS: ", "");
 			System.out.println(login + " " + pass);
+			toClient.write("LOGIN OK\n");
+			toClient.flush();
+			toClient.write("REM_TIME: 10\n");
+			toClient.flush();
+			toClient.write("CANDIDATES ARE:\n");
+			toClient.flush();
+			toClient.write(new Integer(LocalServerApp.candidatesBank.getTempCandidatesList().size())
+					.toString().toCharArray());
+			toClient.flush();
+			toClient.write("\n");
+			toClient.flush();
+			for(Candidate c: LocalServerApp.candidatesBank.getTempCandidatesList()){
+				toClient.write(c.toString().toCharArray());
+				toClient.flush();
+			}
+			s=inFromClient.readLine();
+			System.out.println(s);
+			if(!s.matches("VOTE( \\d+)+")){
+				System.out.println("bad");
+				inFromClient.close();
+				toClient.close();
+				return;
+			}
+			s=s.replaceFirst("VOTE ", "");
+			Integer votesNum=Integer.parseInt(s.replaceAll(" \\d+", ""));
+			System.out.println(votesNum);
 			inFromClient.close();
+			toClient.close();
 		}
 		catch(IOException e){
 			e.printStackTrace();;
@@ -59,6 +86,8 @@ public class ServerThread implements Runnable {
 			os.write("HELLO\n");
 			os.flush();
 			os.write("LOGIN: Prastaruszek, PASS: joljol\n");
+			os.flush();
+			os.write("VOTE 3 1 2 3\n");
 			os.flush();
 			//System.out.println("koniec");
 		} catch (UnknownHostException e) {
