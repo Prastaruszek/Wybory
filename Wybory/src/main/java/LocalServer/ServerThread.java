@@ -20,20 +20,25 @@ public class ServerThread implements Runnable {
 	public void run() {
 		try{
 			BufferedReader inFromClient=new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			System.out.println("tu");
+			BufferedWriter toClient=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			
 			String s;
-			while ((s = inFromClient.readLine()) != null) {
-                System.out.println(s);
-                System.out.flush();
-                if(s.equals("dobrze")){
-					System.out.println("jest dobrze");
-				}
-				else{
-					System.out.println("nie jest dobrze");
-				}
-            }
-			
+			s=inFromClient.readLine();
+			System.out.println(s);
+			if(!s.equals("HELLO")){
+				toClient.close();
+				inFromClient.close();
+				return;
+			}
+			toClient.write("HELLO. WHO ARE YOU?\n");
+			toClient.flush();
+			s=inFromClient.readLine();
+			if(!s.matches("LOGIN: .+, PASS: .+")){
+				toClient.write("BAD LOGIN OR PASS");
+			}
+			String login=s.replaceFirst("LOGIN: ", "").replaceFirst(",.+","");
+			String pass=s.replaceFirst(".+, PASS: ", "");
+			System.out.println(login + " " + pass);
 			inFromClient.close();
 		}
 		catch(IOException e){
@@ -51,15 +56,11 @@ public class ServerThread implements Runnable {
 			//ssl.setEnabledProtocols(new String[]{"SSLv3", "TLSv1"});
 			BufferedWriter os=new BufferedWriter(new OutputStreamWriter(ssl.getOutputStream()));
 			//System.out.println(ssl.getEnableSessionCreation()+"rama");
-			os.write("dobrze\n");
+			os.write("HELLO\n");
 			os.flush();
-			os.write("cus\n");
+			os.write("LOGIN: Prastaruszek, PASS: joljol\n");
 			os.flush();
-			os.write("trolololo");
-			os.flush();
-			os.write("dobrze\n");
-			os.flush();
-			System.out.println("koniec");
+			//System.out.println("koniec");
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
