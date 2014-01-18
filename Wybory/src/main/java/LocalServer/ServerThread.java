@@ -27,7 +27,6 @@ public class ServerThread implements Runnable {
 			BufferedWriter toClient=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			
 			//AUTHENTICATION
-			
 			String s;
 			s=inFromClient.readLine();
 			System.out.println(s);
@@ -40,7 +39,7 @@ public class ServerThread implements Runnable {
 			toClient.flush();
 			s=inFromClient.readLine();
 			if(!s.matches("LOGIN: .+, PASS: .+")){
-				toClient.write("BAD LOGIN OR PASS");
+				toClient.write("BAD LOGIN OR PASS\n");
 			}
 			String login=s.replaceFirst("LOGIN: ", "").replaceFirst(",.+","");
 			String pass=s.replaceFirst(".+, PASS: ", "");
@@ -92,7 +91,7 @@ public class ServerThread implements Runnable {
 				}
 				votes.add(Integer.parseInt(mat.group()));
 			}
-			
+			System.out.println(votes);
 			//\VOTING
 		}
 		catch(IOException e){
