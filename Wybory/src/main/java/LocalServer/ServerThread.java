@@ -92,15 +92,31 @@ public class ServerThread implements Runnable {
 				}
 				votes.add(Integer.parseInt(mat.group()));
 			}
-			
+			if(mat.find()){
+				inFromClient.close();
+				toClient.close();
+				return;
+			}
+			if(!LocalServerApp.candidatesBank.verifyVotes(votes)){
+				toClient.write("REJ ");
+				toClient.flush();
+				List<Candidate> l=LocalServerApp.candidatesBank.getTempCandidatesList();
+				toClient.write(String.valueOf(l.size()));
+				toClient.flush();
+				for(Candidate c: l){
+					toClient.write(String.valueOf(c.Id));
+					toClient.flush();
+				}
+			}
+			else{
+				toClient.write("VOTE OK\n");
+				toClient.flush();
+			}
 			//\VOTING
 		}
 		catch(IOException e){
 			e.printStackTrace();;
 		}
-	}
-	private void autentication(){
-		
 	}
 	
 	
@@ -121,6 +137,11 @@ public class ServerThread implements Runnable {
 			os.flush();
 			os.write("VOTE 3 1 2 3\n");
 			os.flush();
+			BufferedReader br=new BufferedReader(new InputStreamReader(ssl.getInputStream()));
+			String s;
+			while((s=br.readLine())!=null){
+				System.out.println(s);
+			}
 			//System.out.println("koniec");
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
