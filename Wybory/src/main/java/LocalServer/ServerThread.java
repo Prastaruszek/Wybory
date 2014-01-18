@@ -8,6 +8,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.UnknownHostException;
 import java.security.Security;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -21,6 +25,8 @@ public class ServerThread implements Runnable {
 		try{
 			BufferedReader inFromClient=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			BufferedWriter toClient=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			
+			//AUTHENTICATION
 			
 			String s;
 			s=inFromClient.readLine();
@@ -41,6 +47,10 @@ public class ServerThread implements Runnable {
 			System.out.println(login + " " + pass);
 			toClient.write("LOGIN OK\n");
 			toClient.flush();
+			
+			//\AUTHENTICATION
+			//SHOW CANDIDATES
+			
 			toClient.write("REM_TIME: 10\n");
 			toClient.flush();
 			toClient.write("CANDIDATES ARE:\n");
@@ -54,6 +64,10 @@ public class ServerThread implements Runnable {
 				toClient.write(c.toString().toCharArray());
 				toClient.flush();
 			}
+			
+			//\SHOW CANDIDATES
+			//VOTING
+			
 			s=inFromClient.readLine();
 			System.out.println(s);
 			if(!s.matches("VOTE( \\d+)+")){
@@ -62,16 +76,34 @@ public class ServerThread implements Runnable {
 				toClient.close();
 				return;
 			}
+			List<Integer> votes=new LinkedList<Integer>();
 			s=s.replaceFirst("VOTE ", "");
-			Integer votesNum=Integer.parseInt(s.replaceAll(" \\d+", ""));
-			System.out.println(votesNum);
-			inFromClient.close();
-			toClient.close();
+			Pattern pat=Pattern.compile("\\d+");
+			Matcher mat=pat.matcher(s);
+			mat.find();
+			s=mat.group();
+			int num=Integer.parseInt(s);
+			for(int i=0; i<num ; ++i){
+				if(!mat.find()){
+					/*ktos nas hackuje*/
+					inFromClient.close();
+					toClient.close();
+					return;
+				}
+				votes.add(Integer.parseInt(mat.group()));
+			}
+			
+			//\VOTING
 		}
 		catch(IOException e){
 			e.printStackTrace();;
 		}
 	}
+	private void autentication(){
+		
+	}
+	
+	
 	public static void main(String args[]){
 		
 		try {

@@ -28,4 +28,8 @@ public class CandidatesBank {
 	public List<Candidate> getTempCandidatesList(){
 		return Collections.unmodifiableList(tempCandidates);
 	}
+	public boolean verifyVotes(List<Integer> votes){
+		
+		return true;
+	}
 }
