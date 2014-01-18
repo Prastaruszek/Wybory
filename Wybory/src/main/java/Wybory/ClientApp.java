@@ -124,8 +124,9 @@ public class ClientApp
 				}
 				else if(!s.equals("v")) continue;
 				
-				StringBuilder mes = new StringBuilder("VOTE");
+				StringBuilder mes = new StringBuilder();
 				String temp;
+				int howManyVotes;
 				
 				typeVotesLoop:
 				while(true)
@@ -144,10 +145,10 @@ public class ClientApp
 					}
 					Pattern pat=Pattern.compile("\\d+");
 					Matcher mat=pat.matcher(s);
-					int i;
-					for(i=0; true ; ++i){
+					
+					for(howManyVotes =0; true ; ++howManyVotes){
 						if(!mat.find()){
-							if(i!=0)
+							if(howManyVotes!=0)
 								break typeVotesLoop;
 							else
 							{
@@ -164,7 +165,7 @@ public class ClientApp
 						}
 						if(!candidates[voteNr].exists)
 						{
-							System.out.println("Candidate " + candidates[i].name + " has already lost!");
+							System.out.println("Candidate " + candidates[voteNr].name + " has already lost!");
 							continue vtLoop;							
 						}
 						mes.append(" " + temp);
@@ -177,7 +178,7 @@ public class ClientApp
 					s = sc.nextLine();
 					if(s.equals("y"))
 					{
-						output.write(mes.toString()+"\n");
+						output.write("VOTE " + howManyVotes + mes.toString()+"\n");
 						System.out.println(mes.toString());
 						output.flush();
 						break;
@@ -185,6 +186,8 @@ public class ClientApp
 					else if (s.equals("n"))
 						break;
 				}
+				s = input.readLine();
+				s = s.replaceFirst("OK REM_TIME ", "");
 			}	
 			//\VOTING
 			
