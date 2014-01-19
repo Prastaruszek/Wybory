@@ -55,7 +55,7 @@ public class MSComunicationThread implements Runnable {
 			System.out.println("Candidates are:");
 			s = input.readLine();
 			System.out.println(s);
-			List<Candidate> tempCand=new LinkedList<Candidate>();
+			LinkedList<Candidate> tempCand=new LinkedList<Candidate>();
 			int size=Integer.parseInt(s);
 			for(int i=0; i<size; ++i){
 				s=input.readLine();
@@ -64,13 +64,28 @@ public class MSComunicationThread implements Runnable {
 				tempCand.add(new Candidate(sca.next(),
 							sca.next(),
 							new Integer(s.replaceAll("\\D+", ""))));
+				sca.close();
 			}
-			
+			LocalServerApp.candidatesBank=new CandidatesBank(tempCand, 4);
+			while(true){
+				Thread.sleep(100000);
+				List<Integer> li=LocalServerApp.candidatesBank.countVotes();
+				output.write("VOTES_COUNTED");
+				output.flush();
+				for(Integer i: li){
+					output.write(" "+i);
+					output.flush();
+				}
+				s=input.readLine();
+				System.out.println(s);
+				//LOOSER?
+			}
 		} catch (UnknownHostException e) {
-		
 		}
 		catch(IOException e){
 			System.out.println(e+"cl_app_beggining");
+		} catch (InterruptedException e) {
+			System.out.println(e);
 		}
 		
 	}
