@@ -30,7 +30,7 @@ public class ServerThread implements Runnable {
 			String s;
 			s=inFromClient.readLine();
 			System.out.println(s);
-			if(!s.equals("HELLO")){
+			if(s==null || !s.equals("HELLO")){
 				toClient.close();
 				inFromClient.close();
 				return;
@@ -38,6 +38,11 @@ public class ServerThread implements Runnable {
 			toClient.write("HELLO. WHO ARE YOU?\n");
 			toClient.flush();
 			s=inFromClient.readLine();
+			if(s==null){
+				toClient.close();
+				inFromClient.close();
+				return;
+			}
 			if(!s.matches("LOGIN: .+, PASS: .+")){
 				toClient.write("BAD LOGIN OR PASS\n");
 			}
@@ -66,57 +71,61 @@ public class ServerThread implements Runnable {
 			
 			//\SHOW CANDIDATES
 			//VOTING
-			
-			s=inFromClient.readLine();
-			System.out.println(s);
-			if(!s.matches("VOTE( \\d+)+")){
-				System.out.println("bad");
-				inFromClient.close();
-				toClient.close();
-				return;
-			}
-			List<Integer> votes=new LinkedList<Integer>();
-			s=s.replaceFirst("VOTE ", "");
-			Pattern pat=Pattern.compile("\\d+");
-			Matcher mat=pat.matcher(s);
-			mat.find();
-			s=mat.group();
-			int num=Integer.parseInt(s);
-			for(int i=0; i<num ; ++i){
-				if(!mat.find()){
-					/*ktos nas hackuje*/
+		
+			while(true){
+				
+				s=inFromClient.readLine();
+				System.out.println(s);
+				if(s==null || !s.matches("VOTE( \\d+)+")){
+					System.out.println("bad");
 					inFromClient.close();
 					toClient.close();
 					return;
 				}
-				votes.add(Integer.parseInt(mat.group()));
-			}
-			if(mat.find()){
-				inFromClient.close();
-				toClient.close();
-				return;
-			}
-			if(!LocalServerApp.candidatesBank.verifyVotes(votes)){
-				toClient.write("REJ ");
+				List<Integer> votes=new LinkedList<Integer>();
+				s=s.replaceFirst("VOTE ", "");
+				Pattern pat=Pattern.compile("\\d+");
+				Matcher mat=pat.matcher(s);
+				mat.find();
+				s=mat.group();
+				int num=Integer.parseInt(s);
+				Integer temp;
+				for(int i=0; i<num ; ++i){
+					if(!mat.find()){
+						/*ktos nas hackuje*/
+						inFromClient.close();
+						toClient.close();
+						return;
+					}
+					temp=Integer.parseInt(mat.group());
+					if(temp>=0)
+						votes.add(temp);
+				}
+				if(mat.find()){
+					System.out.println("bad protocol");
+					inFromClient.close();
+					toClient.close();
+					return;
+				}
+				/*TUTAJ MUSIMY ZMIENIC, PRZY WERYFIKACJI NAZWISK, ŻEBY BYŁO ZAMIAST 0 user_id */
+				List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,0);
+				toClient.write("OK REM_TIME 3 "+accepted.size());
 				toClient.flush();
-				List<Candidate> l=LocalServerApp.candidatesBank.getTempCandidatesList();
-				toClient.write(String.valueOf(l.size()));
-				toClient.flush();
-				for(Candidate c: l){
-					toClient.write(String.valueOf(c.Id));
+				for(Integer i: accepted){
+					toClient.write(" "+i.toString());
 					toClient.flush();
 				}
-			}
-			else{
-				toClient.write("VOTE OK\n");
+				toClient.write("\n");
 				toClient.flush();
+				System.out.println("petelka");
 			}
-//github.com/Prastaruszek/Wybory
+			
 			//\VOTING
 		}
 		catch(IOException e){
-			e.printStackTrace();;
+			System.out.println(e);
 		}
+		System.out.println("petelicki");
 	}
 	
 	
@@ -142,6 +151,8 @@ public class ServerThread implements Runnable {
 			while((s=br.readLine())!=null){
 				System.out.println(s);
 			}
+			os.close();
+			br.close();
 			//System.out.println("koniec");
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block

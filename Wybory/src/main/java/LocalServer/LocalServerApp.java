@@ -18,7 +18,7 @@ public class LocalServerApp {
 		cl.add(new Candidate("Piotr", "Kawałek",1));
 		cl.add(new Candidate("Krzysztof", "Kleiner",2));
 		cl.add(new Candidate("Edward", "Szczypka",3));
-		candidatesBank=new CandidatesBank(cl);
+		candidatesBank=new CandidatesBank(cl,4);
 	}
 	public static void main(String args[]){	
 		try{

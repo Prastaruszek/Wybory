@@ -1,6 +1,8 @@
 package LocalServer;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,20 +18,48 @@ class Candidate{
 	public String toString(){
 		return Id+". "+forename+" "+name+"\n";
 	}
+	public boolean equals(Object o){
+		if(o==null|| !(o instanceof Candidate)){
+			return false;
+		}
+		return ((Candidate)o).Id==this.Id;
+	}
+}
+
+class Client{
+	String nick;
+	int id;
 }
 
 public class CandidatesBank {
-	private LinkedList<Candidate> candidatesList;
-	private LinkedList<Candidate> tempCandidates;
-	public CandidatesBank(LinkedList<Candidate> candidatesList){
+	private List<Candidate> candidatesList;
+	private List<Candidate> tempCandidates;
+	private ArrayList<List<Integer>> votes;
+	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
 		this.tempCandidates=(LinkedList<Candidate>) candidatesList.clone();
+		votes=new ArrayList<List<Integer>>(n+1);
+		for(int i=0; i<=n; ++i){
+			votes.add(new LinkedList<Integer>());
+		}
 	}
 	public List<Candidate> getTempCandidatesList(){
 		return Collections.unmodifiableList(tempCandidates);
 	}
-	public boolean verifyVotes(List<Integer> votes){
-		
-		return true;
+	public List<Integer> verifyVotes(List<Integer> u_votes, int user_id){
+		List<Integer> accepted=new LinkedList<Integer>();
+		Iterator<Integer> it=u_votes.listIterator();
+		while(it.hasNext()){
+			Integer i=it.next();
+			if(!tempCandidates.contains(new Candidate("","",i))){
+				continue;
+			}
+			if(votes.get(user_id).contains(i)){
+				continue;
+			}
+			votes.get(user_id).add(i);
+			accepted.add(i);
+		}
+		return accepted;
 	}
 }
