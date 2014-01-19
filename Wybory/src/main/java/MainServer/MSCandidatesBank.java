@@ -16,6 +16,7 @@ class MSCandidate{
 		this.forename=forename;
 		this.name=name;
 		this.Id=id;
+		nrOfVotes = 0;
 	}
 	public String toString(){
 		return Id+forename+" "+name+"\n";
@@ -39,6 +40,11 @@ public class MSCandidatesBank {
 	
 	public List<MSCandidate> getTempCandidatesList(){
 		return Collections.unmodifiableList(tempCandidates);
+	}
+	
+	public void remove(MSCandidate c)
+	{
+		tempCandidates.remove(c);
 	}
 	
 	synchronized void addVotes(int[] arr)

@@ -11,7 +11,9 @@ import javax.net.ssl.SSLSocket;
 
 
 public abstract class MainServerThread implements Runnable {
-	static Integer monitor;
+	static Object monitor = new Object();
+	static Integer registeredThreads = 0;
+	static Integer looserIndex = -1;
 	public static MSCandidatesBank candidatesBank;
 	public static void loadCandidates(){
 		LinkedList<MSCandidate> cl=new LinkedList<MSCandidate>();
