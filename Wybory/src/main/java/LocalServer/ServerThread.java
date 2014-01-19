@@ -109,14 +109,14 @@ public class ServerThread implements Runnable {
 				}
 				/*TUTAJ MUSIMY ZMIENIC, PRZY WERYFIKACJI NAZWISK, ŻEBY BYŁO ZAMIAST 0 user_id */
 				List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,0);
-				toClient.write("OK REM_TIME 3 "+accepted.size());
+				toClient.write("VOTE OK REM_TIME 3 "+accepted.size());
 				toClient.flush();
 				for(Integer i: accepted){
 					toClient.write(" "+i.toString());
 					toClient.flush();
 				}
 				toClient.write("\n");
-
+				toClient.flush();
 			}
 
 			
