@@ -25,7 +25,6 @@ public class MainServerCommunicationThread extends MainServerThread{
 			//AUTHENTICATION
 			String s;
 			s=input.readLine();
-			System.out.println(s);
 			if(s==null || !s.equals("HELLO")){
 				output.close();
 				input.close();
@@ -44,7 +43,6 @@ public class MainServerCommunicationThread extends MainServerThread{
 			}
 			String login=s.replaceFirst("LOGIN: ", "").replaceFirst(",.+","");
 			String pass=s.replaceFirst(".+, PASS: ", "");
-			System.out.println(login + " " + pass);
 			output.write("LOGIN OK\n");
 			output.flush();
 			
@@ -66,8 +64,6 @@ public class MainServerCommunicationThread extends MainServerThread{
 			}
 			//\SHOW CANDIDATES
 			//VOTING
-			int looser = -1, lastlooser = -1;
-			
 			while(true)
 			{
 				s = input.readLine();
@@ -83,10 +79,11 @@ public class MainServerCommunicationThread extends MainServerThread{
 				
 				synchronized(monitor)
 				{
-					monitor++;
-					if(monitor == MainServerApp.numberOfThreads)
+					registeredThreads++;
+					if(registeredThreads == MainServerApp.numberOfThreads)
 						monitor.notifyAll();
-					while(looser == lastlooser)
+					//while(monitor != MainServerApp.numberOfThreads || looserIndex == lastlooser)
+					while(registeredThreads!=0)
 					{
 						try {
 							monitor.wait();
@@ -95,18 +92,19 @@ public class MainServerCommunicationThread extends MainServerThread{
 						{}
 					}
 				}
-				
 				if(candidatesBank.getTempCandidatesList().size()==1)
 				{
-					output.write("WINNER " + candidatesBank.getTempCandidatesList().get(0));
+					output.write("WINNER " + candidatesBank.getTempCandidatesList().get(0).Id + "\n");
+					output.flush();
 					break;
 				}
-				output.write("LOOSER 2\n");
+				output.write("LOOSER " + looserIndex + "\n");
 				output.flush();
 			}
 		}
 		catch(IOException e){
-			e.printStackTrace();;
+			e.printStackTrace();
+			System.out.println(e);
 		}
 	}
 }
