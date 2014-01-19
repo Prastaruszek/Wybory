@@ -35,6 +35,11 @@ public class ClientApp
 		Integer time = new Integer(s.replaceFirst("REM_TIME: ", ""));
 		System.out.println("Time remaining to send fist part of votes: " + time/60 + " minutes " + time%60 + " seconds.");
 	}
+	static void timeRemaining(Integer time)
+	{
+		System.out.println("Time remaining to send fist part of votes: " + time/60 + " minutes " + time%60 + " seconds.");
+	}
+
 	
 	public static void main(String args[]){	
 	SSLSocket socket = null;
@@ -119,7 +124,7 @@ public class ClientApp
 				s = sc.nextLine();
 				if(s.equals("t"))
 				{
-					timeRemaining(s);
+				//	timeRemaining();
 					continue;
 				}
 				else if(!s.equals("v")) continue;
@@ -186,11 +191,69 @@ public class ClientApp
 					else if (s.equals("n"))
 						break;
 				}
-				s = input.readLine();
-				s = s.replaceFirst("OK REM_TIME ", "");
-			}	
+				
+				for (int i=0; i<2; i++)
+				{
+
+					s = input.readLine();
+					if(s.startsWith("VOTE OK REM_TIME"))
+					{
+						s = s.replaceFirst("VOTE OK REM_TIME ", "");
+						
+						Pattern pat=Pattern.compile("\\d+");
+						Matcher mat=pat.matcher(s);
+						
+						mat.find();
+						Integer remTime = new Integer(mat.group());
+						mat.find();
+						int howManyVotesAccepted = new Integer(mat.group());
+						if(howManyVotesAccepted == howManyVotes)
+						{
+							System.out.println("Votes accepted. Await next monition.");
+						}
+						else if(howManyVotesAccepted == 0)
+						{
+							System.out.println("Sorry, none of your votes were correct!");
+						}
+						else
+						{
+							System.out.println("Some of your votes were incorrect, but these were accepted:");
+							for(int j=0; j<howManyVotesAccepted ; ++j)
+							{
+								if(!mat.find())
+									break;
+								else
+									System.out.print(mat.group()+ " ");
+							}
+							System.out.print("\n");
+						}
+					}
+					else //SEND_LIST
+					{
+						s = s.replaceFirst("SEND LIST ", "");
+						System.out.println("All candidates you voted on have lost. Remaining candidates are:");
+						
+						Pattern pat=Pattern.compile("\\d+");
+						Matcher mat=pat.matcher(s);
+						
+						mat.find();
+						int candidatesPresentQuantity = new Integer(mat.group());
+						System.out.println(candidatesPresentQuantity + " " + candidatesQuantity);
+						for(int j=1; j<=candidatesQuantity; j++)
+						{
+							candidates[j].exists = false;
+						}
+						for(int j=0; j<candidatesPresentQuantity ; ++j)
+						{
+							mat.find();
+							Integer candNr = new Integer(mat.group());
+							candidates[candNr].exists = true;
+							System.out.println(candidates[candNr].name);
+						}
+					}
+				}	
 			//\VOTING
-			
+			}
 		}
 		catch(IOException e){
 			e.printStackTrace();

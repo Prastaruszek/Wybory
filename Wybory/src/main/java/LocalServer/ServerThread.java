@@ -108,7 +108,9 @@ public class ServerThread implements Runnable {
 				}
 			}
 			else{
-				toClient.write("VOTE OK\n");
+				toClient.write("VOTE OK REM_TIME 10 1 1\n");
+				toClient.flush();
+				toClient.write("SEND LIST 2 1 3\n");
 				toClient.flush();
 			}
 //github.com/Prastaruszek/Wybory
