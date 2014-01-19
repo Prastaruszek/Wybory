@@ -116,9 +116,9 @@ public class ServerThread implements Runnable {
 					toClient.flush();
 				}
 				toClient.write("\n");
-				toClient.flush();
-				System.out.println("petelka");
+
 			}
+
 			
 			//\VOTING
 		}
