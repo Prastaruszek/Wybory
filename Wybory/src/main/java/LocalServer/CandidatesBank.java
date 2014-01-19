@@ -4,19 +4,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-class Candidate{
-	String forename;
-	String name;
-	Integer Id;
-	public Candidate(String forename, String name, int id){
-		this.forename=forename;
-		this.name=name;
-		this.Id=id;
-	}
-	public String toString(){
-		return Id+". "+forename+" "+name+"\n";
-	}
-}
 
 public class CandidatesBank {
 	private LinkedList<Candidate> candidatesList;
@@ -31,5 +18,13 @@ public class CandidatesBank {
 	public boolean verifyVotes(List<Integer> votes){
 		
 		return true;
+	}
+	public synchronized void addVotes(int[] arr)
+	{
+		int i=0;
+		for (Candidate c : tempCandidates)
+		{
+			c.nrOfVotes += arr[i++];
+		}
 	}
 }
