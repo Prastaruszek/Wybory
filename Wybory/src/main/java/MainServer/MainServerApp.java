@@ -16,7 +16,7 @@ public class MainServerApp {
 	    	System.setProperty("javax.net.ssl.keyStore","mySrvKeystore");
 			System.setProperty("javax.net.ssl.keyStorePassword","123456");
 			SSLServerSocketFactory SocketFactory=(SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
-			SSLServerSocket welcomeSocket=(SSLServerSocket)SocketFactory.createServerSocket(20002);
+			SSLServerSocket welcomeSocket=(SSLServerSocket)SocketFactory.createServerSocket(20006);
 			//welcomeSocket.setEnabledCipherSuites(new String[] {"TLS_RSA_WITH_AES_128_CBC_SHA"});
 			//	numberOfLS++;
 			//new Thread(new MainServerMainThread()).start();

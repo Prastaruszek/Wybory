@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class LocalServerApp {
 	public static CandidatesBank candidatesBank;
@@ -28,6 +29,7 @@ public class LocalServerApp {
 			SSLServerSocketFactory SocketFactory=(SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
 			SSLServerSocket welcomeSocket=(SSLServerSocket)SocketFactory.createServerSocket(20002);
 			//welcomeSocket.setEnabledCipherSuites(new String[] {"TLS_RSA_WITH_AES_128_CBC_SHA"});
+			//new Thread(new MSComunicationThread()).start();
 			while(true){
 				SSLSocket connectionSocket=(SSLSocket)welcomeSocket.accept();
 				System.out.println("waiting");

@@ -18,7 +18,7 @@ class MSCandidate{
 		this.Id=id;
 	}
 	public String toString(){
-		return Id+". "+forename+" "+name+"\n";
+		return Id+forename+" "+name+"\n";
 	}
 	public boolean equals(Object o){
 		if(o==null|| !(o instanceof MSCandidate)){

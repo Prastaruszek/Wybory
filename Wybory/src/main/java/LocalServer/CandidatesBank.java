@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 class Candidate{
 	String forename;
@@ -35,7 +36,10 @@ public class CandidatesBank {
 	private List<Candidate> candidatesList;
 	private List<Candidate> tempCandidates;
 	private ArrayList<List<Integer>> votes;
+	private ReentrantReadWriteLock daLock = new ReentrantReadWriteLock();
+	private boolean write=true;
 	private boolean[] active;
+	private int n;
 	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
 		this.tempCandidates=(LinkedList<Candidate>) candidatesList.clone();
@@ -47,11 +51,30 @@ public class CandidatesBank {
 		for(int i=0; i<=n; ++i){
 			active[i]=true;
 		}
+		n=this.n;
 	}
 	public List<Candidate> getTempCandidatesList(){
 		return Collections.unmodifiableList(tempCandidates);
 	}
+	public List<Integer> countVotes(){
+		List<Integer> result=new LinkedList();
+		int[] count=new int[candidatesList.size()+1];
+		write=false;
+		daLock.writeLock().lock();
+		for(List<Integer> v: votes){
+			if(v.size()>0){
+				count[v.get(0)]+=1;
+			}
+		}
+		for(Candidate c: tempCandidates){
+			result.add(count[c.Id]);
+		}
+		write=true;
+		notifyAll();
+		return result;
+	}
 	public List<Integer> verifyVotes(List<Integer> u_votes, int user_id){
+		
 		List<Integer> accepted=new LinkedList<Integer>();
 		Iterator<Integer> it=u_votes.listIterator();
 		while(it.hasNext()){
@@ -62,8 +85,24 @@ public class CandidatesBank {
 			if(votes.get(user_id).contains(i)){
 				continue;
 			}
-			votes.get(user_id).add(i);
-			accepted.add(i);
+			try{
+				
+				while(!write)
+					wait();
+				daLock.readLock().lock();;
+					votes.get(user_id).add(i);
+					accepted.add(i);
+				daLock.readLock().unlock();
+				//TU JEST WASKIE GARDLO TRZEBA TO ZMIENIC
+				synchronized(this){
+					notifyAll();
+				}
+			}
+			catch(InterruptedException e){
+				System.out.println(e);
+			}
+			finally{
+			}
 		}
 		return accepted;
 	}
