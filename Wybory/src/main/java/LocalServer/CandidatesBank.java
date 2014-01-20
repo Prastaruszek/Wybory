@@ -42,7 +42,7 @@ public class CandidatesBank {
 	private int n;
 	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
-		System.out.println(candidatesList);
+		tempCandidates=new LinkedList<Candidate>();
 		for(Candidate c: candidatesList){
 			System.out.println(c + " "+ c.forename + "" + c.name);
 
