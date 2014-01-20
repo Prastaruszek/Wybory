@@ -6,7 +6,7 @@ public class MainServerPrimaryThread extends MainServerThread {
 	public void run() {
 		synchronized (this) {
 			try {
-				this.wait(6000);
+				this.wait(MainServerApp.initializationTime);
 			}catch(Exception e){}
 		}
 		while(true){
