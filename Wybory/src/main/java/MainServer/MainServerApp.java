@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class MainServerApp {
 	static int numberOfThreads = 0;
-	static long time=new Date().getTime()+25000;
+	static long time=new Date().getTime()+1000000;
 	static boolean end;
 	public static void main(String args[]){	
 		try{

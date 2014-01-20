@@ -75,6 +75,8 @@ public class CandidatesBank {
 				count[v.get(0)]+=1;
 			}
 		}
+		System.out.println("aa" + candidatesList);
+		System.out.println("aa" + candidatesList.size());
 		for(Candidate c: tempCandidates){
 			result.add(count[c.Id]);
 		}
