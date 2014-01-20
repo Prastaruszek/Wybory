@@ -42,7 +42,10 @@ public class CandidatesBank {
 	private int n;
 	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
+		System.out.println(candidatesList);
 		for(Candidate c: candidatesList){
+			System.out.println(c + " "+ c.forename + "" + c.name);
+
 			tempCandidates.add(c);
 		}
 		votes=new ArrayList<List<Integer>>(n+1);

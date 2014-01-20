@@ -68,6 +68,7 @@ public class MSComunicationThread implements Runnable {
 				s=input.readLine();
 				System.out.println(s);
 				Scanner sca=new Scanner(s);
+				sca.next();
 				tempCand.add(new Candidate(sca.next(),
 							sca.next(),
 							new Integer(s.replaceAll("\\D+", ""))));
