@@ -70,7 +70,10 @@ public class CandidatesBank {
 			result.add(count[c.Id]);
 		}
 		write=true;
-		notifyAll();
+		//waskie gardlo do wymiany
+		synchronized(this){
+			notifyAll();
+		}
 		return result;
 	}
 	public List<Integer> verifyVotes(List<Integer> u_votes, int user_id){

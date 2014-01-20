@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.io.IOException;
 
 public class MainServerApp {
-	static int numberOfThreads = 0;
+	static int numberOfThreads = 1;
 	public static void main(String args[]){	
 		try{
 	    	System.setProperty("javax.net.ssl.keyStore","mySrvKeystore");

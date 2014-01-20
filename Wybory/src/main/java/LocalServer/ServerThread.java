@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.UnknownHostException;
 import java.security.Security;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -55,8 +56,11 @@ public class ServerThread implements Runnable {
 			//\AUTHENTICATION
 			//SHOW CANDIDATES
 			
-			toClient.write("REM_TIME: 10\n");
+			toClient.write("REM_TIME: ");
 			toClient.flush();
+			toClient.write(LocalServerApp.end_of_turn+"\n");
+			toClient.flush();
+			System.out.println("czas: "+(LocalServerApp.end_of_turn));
 			toClient.write("CANDIDATES ARE:\n");
 			toClient.flush();
 			toClient.write(new Integer(LocalServerApp.candidatesBank.getTempCandidatesList().size())
