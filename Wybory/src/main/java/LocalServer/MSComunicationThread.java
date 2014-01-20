@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,6 +17,12 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 public class MSComunicationThread implements Runnable {
+	
+	private void read_time(BufferedReader input) throws IOException{
+		String s = input.readLine();
+		long time=Long.parseLong(s.replaceFirst("REM_TIME: ", ""));
+		LocalServerApp.end_of_turn=time;
+	}
 	public void run(){
 		SSLSocket socket = null;
 		try{
@@ -47,7 +54,7 @@ public class MSComunicationThread implements Runnable {
 				output.close();
 				return;
 			}
-			s = input.readLine();
+			read_time(input);
 			//tu beda cuda z czasem sie dzialy
 			
 			s = input.readLine();
@@ -68,18 +75,31 @@ public class MSComunicationThread implements Runnable {
 			}
 			LocalServerApp.candidatesBank=new CandidatesBank(tempCand, 4);
 			while(true){
-				Thread.sleep(100000);
-				System.out.println("nieee");
+				Thread.sleep(LocalServerApp.end_of_turn-new Date().getTime());
 				List<Integer> li=LocalServerApp.candidatesBank.countVotes();
+				System.out.println("counted");
 				output.write("VOTES_COUNTED");
 				output.flush();
+				int j=0;
 				for(Integer i: li){
 					output.write(" "+i);
 					output.flush();
+					System.out.write(i);;
+					++j;
 				}
+				output.write("\n");
+				output.flush();
+				System.out.println(j);
 				s=input.readLine();
-				System.out.println(s);
-				//LOOSER?
+				if(s.matches("LOOSER .*")){
+					LocalServerApp.candidatesBank.loses(Integer.parseInt(s.replaceFirst("LOOSER ", "")));
+					read_time(input);
+				}
+				else{
+					System.out.println(s);
+					
+					return;
+				}
 			}
 		} catch (UnknownHostException e) {
 		}

@@ -56,13 +56,22 @@ public class CandidatesBank {
 	public List<Candidate> getTempCandidatesList(){
 		return Collections.unmodifiableList(tempCandidates);
 	}
+	/* to trzeba zmienić*/
+	public void loses(Integer i){
+		tempCandidates.remove(new Candidate("","",i));
+		daLock.writeLock().unlock();
+	}
 	public List<Integer> countVotes(){
+		System.out.println("hereee");
 		List<Integer> result=new LinkedList();
 		int[] count=new int[candidatesList.size()+1];
 		write=false;
 		daLock.writeLock().lock();
 		for(List<Integer> v: votes){
+			while(v.size()>0 && !tempCandidates.contains(new Candidate("","",v.get(0))))
+				v.remove(0);
 			if(v.size()>0){
+				System.out.println("hereee");
 				count[v.get(0)]+=1;
 			}
 		}
@@ -70,7 +79,10 @@ public class CandidatesBank {
 			result.add(count[c.Id]);
 		}
 		write=true;
-		notifyAll();
+		//waskie gardlo do wymiany
+		synchronized(this){
+			notifyAll();
+		}
 		return result;
 	}
 	public List<Integer> verifyVotes(List<Integer> u_votes, int user_id){

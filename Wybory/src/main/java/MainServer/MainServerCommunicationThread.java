@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +17,12 @@ public class MainServerCommunicationThread extends MainServerThread{
 	SSLSocket socket;
 	public MainServerCommunicationThread(SSLSocket socket){
 		this.socket=socket;
+	}
+	private void write_time(BufferedWriter output) throws IOException{
+		output.write("REM_TIME: ");
+		output.flush();
+		output.write(MainServerApp.time+"\n");
+		output.flush();
 	}
 	public void run() {
 		try{
@@ -49,8 +56,8 @@ public class MainServerCommunicationThread extends MainServerThread{
 			//\AUTHENTICATION
 			//SHOW CANDIDATES
 			
-			output.write("REM_TIME: 10\n");
-			output.flush();
+
+			write_time(output);
 			output.write("CANDIDATES ARE:\n");
 			output.flush();
 			output.write(new Integer(candidatesBank.getTempCandidatesList().size())
@@ -67,6 +74,7 @@ public class MainServerCommunicationThread extends MainServerThread{
 			while(true)
 			{
 				s = input.readLine();
+				System.out.println(s);
 				s.replaceFirst("VOTES_COUNTED ", "");
 				Pattern pat=Pattern.compile("\\d+");
 				Matcher mat=pat.matcher(s);
@@ -76,12 +84,13 @@ public class MainServerCommunicationThread extends MainServerThread{
 				while(mat.find())
 					arr[i++] = new Integer(mat.group());
 				candidatesBank.addVotes(arr);
-				
+				System.out.println("tu");
 				synchronized(monitor)
 				{
 					registeredThreads++;
-					if(registeredThreads == MainServerApp.numberOfThreads)
+					if(registeredThreads == MainServerApp.numberOfThreads){
 						monitor.notifyAll();
+					}
 					//while(monitor != MainServerApp.numberOfThreads || looserIndex == lastlooser)
 					while(registeredThreads!=0)
 					{
@@ -92,6 +101,7 @@ public class MainServerCommunicationThread extends MainServerThread{
 						{}
 					}
 				}
+				System.out.println("tu");
 				if(candidatesBank.getTempCandidatesList().size()==1)
 				{
 					output.write("WINNER " + candidatesBank.getTempCandidatesList().get(0).Id + "\n");
@@ -100,6 +110,8 @@ public class MainServerCommunicationThread extends MainServerThread{
 				}
 				output.write("LOOSER " + looserIndex + "\n");
 				output.flush();
+				
+				write_time(output);
 			}
 		}
 		catch(IOException e){

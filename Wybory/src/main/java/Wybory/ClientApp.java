@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +33,8 @@ public class ClientApp
 	
 	static void timeRemaining(String s)
 	{
-		Integer time = new Integer(s.replaceFirst("REM_TIME: ", ""));
+		Long time = new Long(s.replaceFirst("REM_TIME: ", ""))-new Date().getTime();
+		time/=1000;
 		System.out.println("Time remaining to send fist part of votes: " + time/60 + " minutes " + time%60 + " seconds.");
 	}
 	static void timeRemaining(Integer time)
