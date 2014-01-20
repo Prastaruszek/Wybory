@@ -15,6 +15,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class LocalServerApp {
 	public static CandidatesBank candidatesBank;
 	public static Long end_of_turn;
+	static boolean allow=true;
 	public static void loadCandidates(){
 	}
 	public static void main(String args[]){	

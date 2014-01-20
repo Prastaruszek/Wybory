@@ -75,7 +75,7 @@ public class ServerThread implements Runnable {
 			
 			//\SHOW CANDIDATES
 			//VOTING
-		
+			char[] buff=new char[1024];
 			while(true){
 				
 				s=inFromClient.readLine();

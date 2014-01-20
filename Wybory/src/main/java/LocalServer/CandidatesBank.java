@@ -42,7 +42,9 @@ public class CandidatesBank {
 	private int n;
 	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
-		this.tempCandidates=(LinkedList<Candidate>) candidatesList.clone();
+		for(Candidate c: candidatesList){
+			tempCandidates.add(c);
+		}
 		votes=new ArrayList<List<Integer>>(n+1);
 		for(int i=0; i<=n; ++i){
 			votes.add(new LinkedList<Integer>());
