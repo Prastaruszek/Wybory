@@ -1,5 +1,7 @@
 package MainServer;
 
+import java.util.Date;
+
 public class MainServerPrimaryThread extends MainServerThread {
 	public void run() {
 		synchronized (this) {
@@ -28,7 +30,7 @@ public class MainServerPrimaryThread extends MainServerThread {
 			
 			looserIndex = looser.Id;
 			candidatesBank.remove(looser);
-			
+			MainServerApp.time=new Date().getTime()+15000;
 			synchronized(monitor){
 				registeredThreads = 0;
 				monitor.notifyAll();

@@ -21,8 +21,7 @@ public class MainServerCommunicationThread extends MainServerThread{
 	private void write_time(BufferedWriter output) throws IOException{
 		output.write("REM_TIME: ");
 		output.flush();
-		Long time=new Date().getTime()+40000;
-		output.write(time.toString()+"\n");
+		output.write(MainServerApp.time+"\n");
 		output.flush();
 	}
 	public void run() {
@@ -89,8 +88,9 @@ public class MainServerCommunicationThread extends MainServerThread{
 				synchronized(monitor)
 				{
 					registeredThreads++;
-					if(registeredThreads == MainServerApp.numberOfThreads)
+					if(registeredThreads == MainServerApp.numberOfThreads){
 						monitor.notifyAll();
+					}
 					//while(monitor != MainServerApp.numberOfThreads || looserIndex == lastlooser)
 					while(registeredThreads!=0)
 					{
@@ -110,6 +110,7 @@ public class MainServerCommunicationThread extends MainServerThread{
 				}
 				output.write("LOOSER " + looserIndex + "\n");
 				output.flush();
+				
 				write_time(output);
 			}
 		}

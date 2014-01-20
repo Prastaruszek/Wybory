@@ -102,6 +102,7 @@ public class ServerThread implements Runnable {
 						return;
 					}
 					temp=Integer.parseInt(mat.group());
+					System.out.println(temp);
 					if(temp>=0)
 						votes.add(temp);
 				}
