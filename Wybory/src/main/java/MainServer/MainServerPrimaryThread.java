@@ -30,7 +30,7 @@ public class MainServerPrimaryThread extends MainServerThread {
 			
 			looserIndex = looser.Id;
 			candidatesBank.remove(looser);
-			MainServerApp.time=new Date().getTime()+10000;
+			MainServerApp.time=new Date().getTime()+MainServerApp.roundTime;
 			synchronized(monitor){
 				registeredThreads = 0;
 				monitor.notifyAll();
