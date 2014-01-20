@@ -65,7 +65,6 @@ public class CandidatesBank {
 		daLock.writeLock().unlock();
 	}
 	public List<Integer> countVotes(){
-		System.out.println("hereee");
 		List<Integer> result=new LinkedList();
 		int[] count=new int[candidatesList.size()+1];
 		write=false;
@@ -78,8 +77,6 @@ public class CandidatesBank {
 				count[v.get(0)]+=1;
 			}
 		}
-		System.out.println("aa" + candidatesList);
-		System.out.println("aa" + candidatesList.size());
 		for(Candidate c: tempCandidates){
 			result.add(count[c.Id]);
 		}
