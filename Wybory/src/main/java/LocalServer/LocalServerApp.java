@@ -22,8 +22,8 @@ public class LocalServerApp {
 	public static void main(String args[]){	
 		Scanner sc = new Scanner(System.in);
 		try{
-	    	System.setProperty("javax.net.ssl.keyStore","mySrvKeystore");
-			System.setProperty("javax.net.ssl.keyStorePassword","123456");
+	    	System.setProperty("javax.net.ssl.keyStore","LsKeystore");
+			System.setProperty("javax.net.ssl.keyStorePassword","admin12");
 			System.setProperty("javax.net.ssl.trustStore","mySrvKeystore");
 			System.setProperty("javax.net.ssl.trustStorePassword","123456");
 			loadCandidates();

@@ -48,8 +48,8 @@ public class ClientApp
 	SSLSocket socket = null;
 	Scanner sc = new Scanner(System.in);
 		try{
-	    	System.setProperty("javax.net.ssl.trustStore","mySrvKeystore");
-    		System.setProperty("javax.net.ssl.trustStorePassword","123456");
+	    	System.setProperty("javax.net.ssl.trustStore","LsKeystore");
+    		System.setProperty("javax.net.ssl.trustStorePassword","admin12");
 			Integer portNr = 30001;
 			System.out.println("Choose local server you want to connect to, entering its port. \n"
 					+ "Press ENTER to set default port [30001].");

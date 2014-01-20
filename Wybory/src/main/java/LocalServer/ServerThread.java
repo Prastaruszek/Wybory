@@ -122,6 +122,7 @@ public class ServerThread implements Runnable {
 				}
 				toClient.write("\n");
 				toClient.flush();
+				
 			}
 
 			
