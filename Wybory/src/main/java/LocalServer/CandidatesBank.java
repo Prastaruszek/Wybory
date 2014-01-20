@@ -42,6 +42,7 @@ public class CandidatesBank {
 	private int n;
 	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
+		tempCandidates=new LinkedList<Candidate>();
 		for(Candidate c: candidatesList){
 			tempCandidates.add(c);
 		}
