@@ -75,7 +75,15 @@ public class MSComunicationThread implements Runnable {
 			}
 			LocalServerApp.candidatesBank=new CandidatesBank(tempCand, 4);
 			while(true){
-				Thread.sleep(LocalServerApp.end_of_turn-new Date().getTime());
+				while(true)
+				{
+					try {
+						Thread.sleep(LocalServerApp.end_of_turn-new Date().getTime());
+					} catch (Exception e) {
+					}
+					if(LocalServerApp.end_of_turn <= new Date().getTime()) break;
+				}
+				
 				List<Integer> li=LocalServerApp.candidatesBank.countVotes();
 				System.out.println("counted");
 				output.write("VOTES_COUNTED");
@@ -105,8 +113,6 @@ public class MSComunicationThread implements Runnable {
 		}
 		catch(IOException e){
 			System.out.println(e+"cl_app_beggining");
-		} catch (InterruptedException e) {
-			System.out.println(e);
 		}
 		
 	}

@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
@@ -49,8 +50,14 @@ public class ClientApp
 		try{
 	    	System.setProperty("javax.net.ssl.trustStore","mySrvKeystore");
     		System.setProperty("javax.net.ssl.trustStorePassword","123456");
+			Integer portNr = 30001;
+			System.out.println("Choose local server you want to connect to, entering its port. \n"
+					+ "Press ENTER to set default port [30001].");
+			String s = sc.nextLine();
+			if(!s.equals(""))
+				portNr = new Integer(s);
 			SSLSocketFactory mySocketFactory=(SSLSocketFactory)SSLSocketFactory.getDefault();
-			socket=(SSLSocket)mySocketFactory.createSocket("localhost", 20002);
+			socket=(SSLSocket)mySocketFactory.createSocket("localhost", portNr);
 			//System.out.println(ssl.getEnableSessionCreation()+"ramada");
 			//ssl.setEnabledProtocols(new String[]{"SSLv3", "TLSv1"});
 		} catch (UnknownHostException e) {
