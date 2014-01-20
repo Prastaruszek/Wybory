@@ -69,6 +69,7 @@ public class MSComunicationThread implements Runnable {
 			LocalServerApp.candidatesBank=new CandidatesBank(tempCand, 4);
 			while(true){
 				Thread.sleep(100000);
+				System.out.println("nieee");
 				List<Integer> li=LocalServerApp.candidatesBank.countVotes();
 				output.write("VOTES_COUNTED");
 				output.flush();
