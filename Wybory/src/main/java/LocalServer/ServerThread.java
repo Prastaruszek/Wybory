@@ -17,11 +17,15 @@ import java.util.regex.Pattern;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
+import LoginsAndPasswords.PasswordProtocol;
+
 public class ServerThread implements Runnable {
 	SSLSocket socket;
 	public ServerThread(SSLSocket socket){
 		this.socket=socket;
 	}
+	Integer myId;
+	
 	public void run() {
 		try{
 			BufferedReader inFromClient=new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -29,7 +33,10 @@ public class ServerThread implements Runnable {
 			
 			//AUTHENTICATION
 			String s;
-			s=inFromClient.readLine();
+			if(!PasswordProtocol.vertify(inFromClient, toClient, LocalServerApp.loginsPasswordsStore, myId))
+				return;
+			
+			/*s=inFromClient.readLine();
 			System.out.println(s);
 			if(s==null || !s.equals("HELLO")){
 				toClient.close();
@@ -53,7 +60,7 @@ public class ServerThread implements Runnable {
 			System.out.println(login + " " + pass);
 			toClient.write("LOGIN OK\n");
 			toClient.flush();
-			
+			*/
 			//\AUTHENTICATION
 			//SHOW CANDIDATES
 			

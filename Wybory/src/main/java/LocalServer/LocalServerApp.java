@@ -6,6 +6,8 @@ import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 
+import LoginsAndPasswords.LoginsPasswordsStore;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +23,8 @@ public class LocalServerApp {
 	static int curtur;
 	static List<List<Candidate>> toures=new LinkedList<List<Candidate>>();
 	static Scanner sc = new Scanner(System.in);
-	
+	static LoginsPasswordsStore loginsPasswordsStore = new LoginsPasswordsStore("user", "passwd");
+
 	public static void loadCandidates(){
 	}
 	public static void main(String args[]){	

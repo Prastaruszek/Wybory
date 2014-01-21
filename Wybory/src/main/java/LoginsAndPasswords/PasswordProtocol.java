@@ -50,7 +50,6 @@ public class PasswordProtocol {
 					break;
 				}
 			}
-			System.out.println(userId);
 			if(userId==-1)
 			{
 				output.write("LOGIN DOES NOT EXIST\n");
@@ -67,7 +66,6 @@ public class PasswordProtocol {
 			Pattern pat = Pattern.compile("-?\\d+");
 			Matcher mat = pat.matcher(pass); 
 			System.out.println(mat.groupCount());
-			System.out.println(pass);
 			byte[] encPass = new byte[1000];
 			int j;
 			for (j=0; ; j++)
@@ -104,7 +102,6 @@ public class PasswordProtocol {
 		output.flush();
 		String s, t;
 		s=input.readLine();
-		System.out.println(s);
 		if(!s.equals("HELLO. WHO ARE YOU?")){
 			System.out.println("PROTOCOL FAILED");
 			input.close();

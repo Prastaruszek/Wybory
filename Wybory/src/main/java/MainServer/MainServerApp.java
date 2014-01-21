@@ -7,6 +7,7 @@ import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 
+import LoginsAndPasswords.LoginsPasswordsStore;
 import LoginsAndPasswords.PasswordEncryptionService;
 
 public class MainServerApp {

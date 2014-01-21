@@ -15,6 +15,8 @@ import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
+import LoginsAndPasswords.PasswordProtocol;
+
 
 public class ClientApp 
 {
@@ -74,7 +76,10 @@ public class ClientApp
 			BufferedReader input=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			BufferedWriter output=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			
-			output.write("HELLO\n");
+			String s;
+			if(!PasswordProtocol.attempt(input, output, sc))
+				return;
+			/*output.write("HELLO\n");
 			output.flush();
 			String s, t;
 			s=input.readLine();
@@ -103,7 +108,7 @@ public class ClientApp
 				System.out.println("Bad login or password.\n");
 			}
 			//\AUTHENTICATION
-
+			*/
 			
 			//SHOW CANDIDATES
 
