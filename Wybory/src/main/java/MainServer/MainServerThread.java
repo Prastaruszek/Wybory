@@ -26,7 +26,7 @@ public abstract class MainServerThread implements Runnable {
 	}
 	
 	
-	static LoginsPasswordsStore loginsPasswordsStore = new LoginsPasswordsStore("ls", "passwd");
+	static LoginsPasswordsStore loginsPasswordsStore = new LoginsPasswordsStore("ls", "p");
 	
 	
 }

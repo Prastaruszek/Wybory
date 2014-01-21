@@ -23,7 +23,7 @@ public class LocalServerApp {
 	static int curtur;
 	static List<List<Candidate>> toures=new LinkedList<List<Candidate>>();
 	static Scanner sc = new Scanner(System.in);
-	static LoginsPasswordsStore loginsPasswordsStore = new LoginsPasswordsStore("user", "passwd");
+	static LoginsPasswordsStore loginsPasswordsStore = new LoginsPasswordsStore("u", "p");
 
 	public static void loadCandidates(){
 	}
