@@ -14,11 +14,12 @@ import javax.net.ssl.SSLSocket;
 
 import LoginsAndPasswords.LoginsPasswordsStore;
 import LoginsAndPasswords.PasswordEncryptionService;
+import LoginsAndPasswords.PasswordProtocol;
 
 public class MainServerCommunicationThread extends MainServerThread{
 	
 	SSLSocket socket;
-	int userId;
+	Integer userId;
 		
 	public MainServerCommunicationThread(SSLSocket socket){
 		this.socket=socket;
@@ -36,79 +37,9 @@ public class MainServerCommunicationThread extends MainServerThread{
 			
 			//AUTHENTICATION
 			String s;
-			s=input.readLine();
-			if(s==null || !s.equals("HELLO")){
-				output.close();
-				input.close();
-				return;
-			}
-			output.write("HELLO. WHO ARE YOU?\n");
-			output.flush();
-			while(true)
-			{
-				s=input.readLine();
-				if(s==null){
-					output.close();
-					input.close();
-					return;
-				}
-
-				/*if(!s.matches("LOGIN: .+, PASS: .+")){
-					output.write("PROTOCOL ERROR\n");
-				}
-				String login=s.replaceFirst("LOGIN: ", "").replaceFirst(",.+","");
-				*/
-				if(!s.matches("LOGIN: .+")){
-					output.write("PROTOCOL ERROR\n");
-				}
-				String login=s.replaceFirst("LOGIN: ", "");
+			if(!PasswordProtocol.vertify(input, output, loginsPasswordsStore, userId))
+				return;				
 			
-				for (int i=1; i<=loginsPasswordsStore.numberOfUsers; i++)
-				{
-					if(login.equals(loginsPasswordsStore.logins[i]))
-					{
-						userId = i;
-						break;
-					}
-				}
-				for (int j=0; j<8; j++)
-					output.write(new Byte(loginsPasswordsStore.salts[userId][j]).toString() + " ");
-				output.write("\n");
-				output.flush();	
-				
-				s = input.readLine();
-				String pass=s.replaceFirst("PASS: ", "");
-				Pattern pat = Pattern.compile("-?\\d+");
-				Matcher mat = pat.matcher(pass); 
-				System.out.println(mat.groupCount());
-				System.out.println(pass);
-				byte[] encPass = new byte[1000];
-				int j;
-				for (j=0; ; j++)
-				{
-					if(!mat.find())
-						break;
-					encPass[j] = new Byte(mat.group());
-				}
-				byte[] encPassCutToLength = new byte[j];
-				for (int k=0; k<j; k++)
-					encPassCutToLength[k] = encPass[k];
-				
-				if(PasswordEncryptionService.authenticate(encPassCutToLength, loginsPasswordsStore.encryptedPasswords[userId],
-						loginsPasswordsStore.salts[userId]))
-				{
-					output.write("LOGIN OK\n");
-					output.flush();
-					System.out.println("LOGIN OK!!");
-					break;
-				}
-				System.out.println("WRONG");
-				output.write("WRONG PASSWORD\n");
-				output.flush();
-				
-			}
-			
-			System.out.println("em here");
 			
 			//\AUTHENTICATION
 			//SHOW CANDIDATES

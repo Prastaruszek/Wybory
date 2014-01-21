@@ -19,6 +19,7 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 import LoginsAndPasswords.PasswordEncryptionService;
+import LoginsAndPasswords.PasswordProtocol;
 
 public class MSComunicationThread implements Runnable {
 	
@@ -37,51 +38,12 @@ public class MSComunicationThread implements Runnable {
 			
 			BufferedReader input=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			BufferedWriter output=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-	System.out.println("x");
-			output.write("HELLO\n");
-			output.flush();
-			String s, t;
-			s=input.readLine();
-			System.out.println(s);
-			if(!s.equals("HELLO. WHO ARE YOU?")){
-				System.out.println("PROTOCOL FAILED");
-				input.close();
-				output.close();
+			
+			String s;
+			if(!PasswordProtocol.attempt(input, output, LocalServerApp.sc))
 				return;
-			}
-			output.write("LOGIN: ls1\n");
-			output.flush();
-			s = input.readLine();
-			Pattern pat = Pattern.compile("-?\\d+");
-			Matcher mat = pat.matcher(s); 
-			System.out.println(s);
-			byte[] salt = new byte[8];
-			byte[] encPass = null;
-			for (int j=0; j<8; j++)
-			{
-				if(!mat.find())
-					throw new IOException("salt table too short");
-				salt[j] = new Byte(mat.group());
-			}
-			try {
-				encPass = PasswordEncryptionService.getEncryptedPassword("passwd1", salt);
-			} catch (Exception e){
-				e.printStackTrace();
-			}
-			output.write("PASS: ");
-			for (int j=0; j<encPass.length; j++)
-				output.write(new Byte(encPass[j]).toString() + " ");
-			output.write("\n");
-			output.flush();
-			s = input.readLine();
-			if(!s.equals("LOGIN OK")){
-				input.close();
-				output.close();
-				return;
-			}
-			System.out.println("jestem");
+			
 			read_time(input);
-			System.out.println("jestem");
 			
 			s = input.readLine();
 			System.out.println(s);
@@ -98,6 +60,7 @@ public class MSComunicationThread implements Runnable {
 							sca.next(),
 							new Integer(s.replaceAll("\\D+", ""))));
 				sca.close();
+				System.out.println(s);
 			}
 			LocalServerApp.candidatesBank=new CandidatesBank(tempCand, 4);
 			while(true){
