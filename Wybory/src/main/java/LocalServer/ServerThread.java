@@ -49,6 +49,7 @@ public class ServerThread implements Runnable {
 			}
 			String login=s.replaceFirst("LOGIN: ", "").replaceFirst(",.+","");
 			String pass=s.replaceFirst(".+, PASS: ", "");
+			Integer myId=0;
 			System.out.println(login + " " + pass);
 			toClient.write("LOGIN OK\n");
 			toClient.flush();
@@ -77,7 +78,7 @@ public class ServerThread implements Runnable {
 			//VOTING
 			char[] buff=new char[1024];
 			while(true){
-				
+				int temp_tour=LocalServerApp.curtur;
 				s=inFromClient.readLine();
 				System.out.println(s);
 				if(s==null || !s.matches("VOTE( \\d+)+")){
@@ -115,9 +116,34 @@ public class ServerThread implements Runnable {
 				/*TUTAJ MUSIMY ZMIENIC, PRZY WERYFIKACJI NAZWISK, ŻEBY BYŁO ZAMIAST 0 user_id */
 				List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,0);
 				toClient.write("VOTE OK REM_TIME 3 "+accepted.size());
+				System.out.println("accepting vote");
 				toClient.flush();
 				for(Integer i: accepted){
 					toClient.write(" "+i.toString());
+					toClient.flush();
+				}
+				toClient.write("\n");
+				toClient.flush();
+				while(temp_tour==LocalServerApp.curtur || !LocalServerApp.candidatesBank.sendList.contains(myId)){
+					try{
+							synchronized(Integer.class){
+								Integer.class.wait();
+								Integer.class.notifyAll();
+							}
+					}
+					catch(InterruptedException e){
+						e.printStackTrace();
+					}
+				}
+				temp_tour++;
+				toClient.write("SEND LIST ");
+				System.out.println("Sendeing List to:" + myId);
+				toClient.flush();
+				toClient.write(new Integer(LocalServerApp.toures.get(temp_tour).size())+" ");
+				toClient.flush();
+				for(Candidate c: LocalServerApp.toures.get(temp_tour)){
+					System.out.println(c);
+					toClient.write(c.Id.toString()+" ");
 					toClient.flush();
 				}
 				toClient.write("\n");
@@ -132,41 +158,5 @@ public class ServerThread implements Runnable {
 		}
 		System.out.println("petelicki");
 	}
-	
-	
-	public static void main(String args[]){
 		
-		try {
-        	System.setProperty("javax.net.ssl.trustStore","mySrvKeystore");
-    		System.setProperty("javax.net.ssl.trustStorePassword","123456");
-			SSLSocketFactory sf=(SSLSocketFactory)SSLSocketFactory.getDefault();
-			SSLSocket ssl=(SSLSocket)sf.createSocket("localhost", 20002);
-			//System.out.println(ssl.getEnableSessionCreation()+"ramada");
-			//ssl.setEnabledProtocols(new String[]{"SSLv3", "TLSv1"});
-			BufferedWriter os=new BufferedWriter(new OutputStreamWriter(ssl.getOutputStream()));
-			//System.out.println(ssl.getEnableSessionCreation()+"rama");
-			os.write("HELLO\n");
-			os.flush();
-			os.write("LOGIN: Prastaruszek, PASS: joljol\n");
-			os.flush();
-			os.write("VOTE 3 1 2 3\n");
-			os.flush();
-			BufferedReader br=new BufferedReader(new InputStreamReader(ssl.getInputStream()));
-			String s;
-			while((s=br.readLine())!=null){
-				System.out.println(s);
-			}
-			os.close();
-			br.close();
-			//System.out.println("koniec");
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
-		
-		
-	}
 }

@@ -1,30 +1,21 @@
 package MainServer;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Date;
-import java.util.LinkedList;
-import java.io.IOException;
+import LoginsAndPasswords.PasswordEncryptionService;
 
 public class MainServerApp {
 	static int numberOfThreads = 0;
 	static int roundTime = 20000, initializationTime = 40000;
-	static int numberOfUsers = 1000;
 	static long time=new Date().getTime()+roundTime + initializationTime;
 	static boolean end;
 	
 
-	static class LoginsAndPasswords
-	{
-		String logins[] = new String[numberOfUsers];
-		byte salts[][] = new byte[numberOfUsers][];
-	}
-	
-	
 	public static void main(String args[]){	
 		try{
 	    	System.setProperty("javax.net.ssl.keyStore","mySrvKeystore");
@@ -50,4 +41,7 @@ public class MainServerApp {
 		}
 	}
 }
+
+
+
 

@@ -37,13 +37,17 @@ public class CandidatesBank {
 	private List<Candidate> tempCandidates;
 	private ArrayList<List<Integer>> votes;
 	private ReentrantReadWriteLock daLock = new ReentrantReadWriteLock();
+	public List<Integer> sendList=new LinkedList<Integer>();
 	private boolean write=true;
 	private boolean[] active;
 	private int n;
 	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
 		tempCandidates=new LinkedList<Candidate>();
+		LocalServerApp.toures.add(new ArrayList());
+		List<Candidate> t=LocalServerApp.toures.get(0);
 		for(Candidate c: candidatesList){
+			t.add(c);
 			tempCandidates.add(c);
 		}
 		votes=new ArrayList<List<Integer>>(n+1);
@@ -60,9 +64,24 @@ public class CandidatesBank {
 		return Collections.unmodifiableList(tempCandidates);
 	}
 	/* to trzeba zmienić*/
-	public void loses(Integer i){
-		tempCandidates.remove(new Candidate("","",i));
+	public void loses(Integer j){
+		List<Integer> sendList=new LinkedList<Integer>();
+		tempCandidates.remove(new Candidate("","",j));
+		for(int i=0; i<n; ++i){
+			List<Integer> li=votes.get(i);
+			boolean empty=(li.size()==0);
+			while(li.size()>0 && !tempCandidates.contains(new Candidate("","",li.get(0)))){
+				li.remove(0);
+			}
+			if(li.size()==0 && !empty){
+				sendList.add(i);
+			}
+		}
 		daLock.writeLock().unlock();
+		this.sendList=sendList;
+		synchronized(Integer.class){
+			Integer.class.notifyAll();
+		}
 	}
 	public List<Integer> countVotes(){
 		List<Integer> result=new LinkedList();

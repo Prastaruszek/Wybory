@@ -1,5 +1,7 @@
-package MainServer;
-
+package LoginsAndPasswords;
+/**
+ * @author http://jerryorr.blogspot.com/2012/05/secure-password-storage-lots-of-donts.html
+ */
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -10,19 +12,12 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 
-class PasswordEncryptionService {
-  public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt)
-   throws NoSuchAlgorithmException, InvalidKeySpecException {
-  // Encrypt the clear-text password using the same salt that was used to
-  // encrypt the original password
-  byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);
-
-  // Authentication succeeds if encrypted password that the user entered
-  // is equal to the stored hash
+public class PasswordEncryptionService {
+  public static boolean authenticate(byte[] encryptedAttemptedPassword, byte[] encryptedPassword, byte[] salt){
   return Arrays.equals(encryptedPassword, encryptedAttemptedPassword);
  }
 
- public byte[] getEncryptedPassword(String password, byte[] salt)
+ public static byte[] getEncryptedPassword(String password, byte[] salt)
    throws NoSuchAlgorithmException, InvalidKeySpecException {
   // PBKDF2 with SHA-1 as the hashing algorithm. Note that the NIST
   // specifically names SHA-1 as an acceptable hashing algorithm for PBKDF2
@@ -34,7 +29,7 @@ class PasswordEncryptionService {
   // http://csrc.nist.gov/publications/nistpubs/800-132/nist-sp800-132.pdf
   // iOS 4.x reportedly uses 10,000:
   // http://blog.crackpassword.com/2010/09/smartphone-forensics-cracking-blackberry-backup-passwords/
-  int iterations = 20000;
+  int iterations = 4000;
 
   KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
 
@@ -43,7 +38,7 @@ class PasswordEncryptionService {
   return f.generateSecret(spec).getEncoded();
  }
 
- public byte[] generateSalt() throws NoSuchAlgorithmException {
+ public static byte[] generateSalt() throws NoSuchAlgorithmException {
   // VERY important to use SecureRandom instead of just Random
   SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
 

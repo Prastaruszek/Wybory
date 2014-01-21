@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -17,13 +18,16 @@ public class LocalServerApp {
 	public static CandidatesBank candidatesBank;
 	public static Long end_of_turn;
 	static boolean allow=true;
+	static int curtur;
+	static List<List<Candidate>> toures=new LinkedList<List<Candidate>>();
+	
 	public static void loadCandidates(){
 	}
 	public static void main(String args[]){	
 		Scanner sc = new Scanner(System.in);
 		try{
-	    	System.setProperty("javax.net.ssl.keyStore","mySrvKeystore");
-			System.setProperty("javax.net.ssl.keyStorePassword","123456");
+	    	System.setProperty("javax.net.ssl.keyStore","LsKeystore");
+			System.setProperty("javax.net.ssl.keyStorePassword","admin12");
 			System.setProperty("javax.net.ssl.trustStore","mySrvKeystore");
 			System.setProperty("javax.net.ssl.trustStorePassword","123456");
 			loadCandidates();

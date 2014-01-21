@@ -9,6 +9,8 @@ import java.util.LinkedList;
 
 import javax.net.ssl.SSLSocket;
 
+import LoginsAndPasswords.LoginsPasswordsStore;
+
 
 public abstract class MainServerThread implements Runnable {
 	static Object monitor = new Object();
@@ -22,6 +24,9 @@ public abstract class MainServerThread implements Runnable {
 		cl.add(new MSCandidate("Edward", "Szczypka",3));
 		candidatesBank=new MSCandidatesBank(cl);
 	}
+	
+	
+	static LoginsPasswordsStore loginsPasswordsStore = new LoginsPasswordsStore("ls", "passwd");
 	
 	
 }

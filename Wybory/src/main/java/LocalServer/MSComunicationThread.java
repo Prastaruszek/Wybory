@@ -6,15 +6,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+
+import LoginsAndPasswords.PasswordEncryptionService;
 
 public class MSComunicationThread implements Runnable {
 	
@@ -33,7 +37,7 @@ public class MSComunicationThread implements Runnable {
 			
 			BufferedReader input=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			BufferedWriter output=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-	
+	System.out.println("x");
 			output.write("HELLO\n");
 			output.flush();
 			String s, t;
@@ -45,17 +49,39 @@ public class MSComunicationThread implements Runnable {
 				output.close();
 				return;
 			}
-			output.write("LOGIN: ls1, PASS: admin1 \n");
+			output.write("LOGIN: ls1\n");
 			output.flush();
 			s = input.readLine();
+			Pattern pat = Pattern.compile("-?\\d+");
+			Matcher mat = pat.matcher(s); 
 			System.out.println(s);
+			byte[] salt = new byte[8];
+			byte[] encPass = null;
+			for (int j=0; j<8; j++)
+			{
+				if(!mat.find())
+					throw new IOException("salt table too short");
+				salt[j] = new Byte(mat.group());
+			}
+			try {
+				encPass = PasswordEncryptionService.getEncryptedPassword("passwd1", salt);
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+			output.write("PASS: ");
+			for (int j=0; j<encPass.length; j++)
+				output.write(new Byte(encPass[j]).toString() + " ");
+			output.write("\n");
+			output.flush();
+			s = input.readLine();
 			if(!s.equals("LOGIN OK")){
 				input.close();
 				output.close();
 				return;
 			}
+			System.out.println("jestem");
 			read_time(input);
-			//tu beda cuda z czasem sie dzialy
+			System.out.println("jestem");
 			
 			s = input.readLine();
 			System.out.println(s);
@@ -102,6 +128,15 @@ public class MSComunicationThread implements Runnable {
 				s=input.readLine();
 				if(s.matches("LOOSER .*")){
 					LocalServerApp.candidatesBank.loses(Integer.parseInt(s.replaceFirst("LOOSER ", "")));
+					List<Candidate> tempAdd=new ArrayList<Candidate>();
+					for(Candidate c: LocalServerApp.candidatesBank.getTempCandidatesList()){
+						tempAdd.add(c);
+					}
+					LocalServerApp.toures.add(tempAdd);
+					LocalServerApp.curtur++;
+					synchronized(Integer.class){
+						Integer.class.notifyAll();
+					}
 					read_time(input);
 				}
 				else{
