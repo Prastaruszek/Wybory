@@ -75,7 +75,8 @@ public class MainServerCommunicationThread extends MainServerThread{
 			{
 				s = input.readLine();
 				System.out.println(s);
-				s.replaceFirst("VOTES_COUNTED ", "");
+				s=s.replaceFirst("VOTES_COUNTED ", "");
+				System.out.println(s);
 				Pattern pat=Pattern.compile("\\d+");
 				Matcher mat=pat.matcher(s);
 				
@@ -84,7 +85,6 @@ public class MainServerCommunicationThread extends MainServerThread{
 				while(mat.find())
 					arr[i++] = new Integer(mat.group());
 				candidatesBank.addVotes(arr);
-				System.out.println("tu");
 				synchronized(monitor)
 				{
 					registeredThreads++;
@@ -101,7 +101,6 @@ public class MainServerCommunicationThread extends MainServerThread{
 						{}
 					}
 				}
-				System.out.println("tu");
 				if(candidatesBank.getTempCandidatesList().size()==1)
 				{
 					output.write("WINNER " + candidatesBank.getTempCandidatesList().get(0).Id + "\n");
