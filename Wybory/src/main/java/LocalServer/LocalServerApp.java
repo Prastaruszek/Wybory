@@ -42,7 +42,6 @@ public class LocalServerApp {
 			new Thread(new MSComunicationThread()).start();
 			while(true){
 				SSLSocket connectionSocket=(SSLSocket)welcomeSocket.accept();
-				System.out.println("waiting");
 				/*for(String x : connectionSocket.getEnabledCipherSuites()){
 					System.out.println(x);
 				}*/

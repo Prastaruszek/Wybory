@@ -36,6 +36,7 @@ public class CandidatesBank {
 	private List<Candidate> candidatesList;
 	private List<Candidate> tempCandidates;
 	private ArrayList<List<Integer>> votes;
+	boolean canSendImmediatly;
 	private ReentrantReadWriteLock daLock = new ReentrantReadWriteLock();
 	public List<Integer> sendList=new LinkedList<Integer>();
 	private boolean write=true;
@@ -58,7 +59,7 @@ public class CandidatesBank {
 		for(int i=0; i<=n; ++i){
 			active[i]=true;
 		}
-		n=this.n;
+		this.n=n;
 	}
 	public List<Candidate> getTempCandidatesList(){
 		return Collections.unmodifiableList(tempCandidates);
@@ -68,9 +69,15 @@ public class CandidatesBank {
 		List<Integer> sendList=new LinkedList<Integer>();
 		tempCandidates.remove(new Candidate("","",j));
 		for(int i=0; i<n; ++i){
+			canSendImmediatly=true;
 			List<Integer> li=votes.get(i);
 			boolean empty=(li.size()==0);
+			System.out.println("hereee");
+			System.out.println("tutaj");
+					
 			while(li.size()>0 && !tempCandidates.contains(new Candidate("","",li.get(0)))){
+				System.out.println("problem sprawia"+li.get(0));
+				canSendImmediatly=false;
 				li.remove(0);
 			}
 			if(li.size()==0 && !empty){
@@ -89,10 +96,7 @@ public class CandidatesBank {
 		write=false;
 		daLock.writeLock().lock();
 		for(List<Integer> v: votes){
-			while(v.size()>0 && !tempCandidates.contains(new Candidate("","",v.get(0))))
-				v.remove(0);
 			if(v.size()>0){
-				System.out.println("hereee");
 				count[v.get(0)]+=1;
 			}
 		}

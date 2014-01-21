@@ -92,7 +92,6 @@ public class MSComunicationThread implements Runnable {
 			int size=Integer.parseInt(s);
 			for(int i=0; i<size; ++i){
 				s=input.readLine();
-				System.out.println(s);
 				Scanner sca=new Scanner(s);
 				sca.next();
 				tempCand.add(new Candidate(sca.next(),
@@ -110,45 +109,47 @@ public class MSComunicationThread implements Runnable {
 					}
 					if(LocalServerApp.end_of_turn <= new Date().getTime()) break;
 				}
-				
-				List<Integer> li=LocalServerApp.candidatesBank.countVotes();
-				System.out.println("counted");
-				output.write("VOTES_COUNTED");
-				output.flush();
-				int j=0;
-				for(Integer i: li){
-					output.write(" "+i);
+				do{
+					List<Integer> li=LocalServerApp.candidatesBank.countVotes();
+					System.out.println("counted");
+					output.write("VOTES_COUNTED");
 					output.flush();
-					System.out.write(i);;
-					++j;
-				}
-				output.write("\n");
-				output.flush();
-				System.out.println(j);
-				s=input.readLine();
-				if(s.matches("LOOSER .*")){
-					LocalServerApp.candidatesBank.loses(Integer.parseInt(s.replaceFirst("LOOSER ", "")));
-					List<Candidate> tempAdd=new ArrayList<Candidate>();
-					for(Candidate c: LocalServerApp.candidatesBank.getTempCandidatesList()){
-						tempAdd.add(c);
+					int j=0;
+					for(Integer i: li){
+						output.write(" "+i);
+						output.flush();
+						System.out.write(i);;
+						++j;
 					}
-					LocalServerApp.toures.add(tempAdd);
-					LocalServerApp.curtur++;
-					synchronized(Integer.class){
-						Integer.class.notifyAll();
+					output.write("\n");
+					output.flush();
+					System.out.println(j);
+					s=input.readLine();
+					if(s.matches("LOOSER .*")){
+						LocalServerApp.candidatesBank.loses(Integer.parseInt(s.replaceFirst("LOOSER ", "")));
+						List<Candidate> tempAdd=new ArrayList<Candidate>();
+						for(Candidate c: LocalServerApp.candidatesBank.getTempCandidatesList()){
+							tempAdd.add(c);
+						}
+						new String();
+						LocalServerApp.toures.add(tempAdd);
+						LocalServerApp.curtur++;
+						synchronized(Integer.class){
+							Integer.class.notifyAll();
+						}
+						read_time(input);
 					}
-					read_time(input);
-				}
-				else{
-					System.out.println(s);
-					
-					return;
-				}
+					else{
+						System.out.println(s);
+						
+						return;
+					}
+				}while(LocalServerApp.candidatesBank.canSendImmediatly);
 			}
 		} catch (UnknownHostException e) {
 		}
 		catch(IOException e){
-			System.out.println(e+"cl_app_beggining");
+			e.printStackTrace();
 		}
 		
 	}
