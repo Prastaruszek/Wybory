@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 
 public class PasswordProtocol {
 	
-	public static boolean vertify(BufferedReader input, BufferedWriter output, LoginsPasswordsStore loginsPasswordsStore,
-			Integer AnEmptyIntToPlaceUserIdIn) throws IOException
+	public static int vertify(BufferedReader input, BufferedWriter output,
+			LoginsPasswordsStore loginsPasswordsStore) throws IOException
 	{
 		int userId;
 		String s;
@@ -18,7 +18,7 @@ public class PasswordProtocol {
 		if(s==null || !s.equals("HELLO")){
 			output.close();
 			input.close();
-			return false;
+			return -1;
 		}
 		output.write("HELLO. WHO ARE YOU?\n");
 		output.flush();
@@ -29,7 +29,7 @@ public class PasswordProtocol {
 			if(s==null){
 				output.close();
 				input.close();
-				return false;
+				return -1;
 			}
 	
 			/*if(!s.matches("LOGIN: .+, PASS: .+")){
@@ -88,9 +88,7 @@ public class PasswordProtocol {
 			output.write("WRONG PASSWORD\n");
 			output.flush();
 		}
-		AnEmptyIntToPlaceUserIdIn = userId;
-		System.out.println("to tez" + AnEmptyIntToPlaceUserIdIn);
-		return true;
+		return userId;
 		
 	}
 	

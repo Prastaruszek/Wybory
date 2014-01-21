@@ -37,7 +37,8 @@ public class MainServerCommunicationThread extends MainServerThread{
 			
 			//AUTHENTICATION
 			String s;
-			if(!PasswordProtocol.vertify(input, output, loginsPasswordsStore, userId))
+			userId = PasswordProtocol.vertify(input, output, loginsPasswordsStore);
+			if(userId == -1)
 				return;				
 			
 			
