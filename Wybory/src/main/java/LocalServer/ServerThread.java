@@ -122,7 +122,7 @@ public class ServerThread implements Runnable {
 					return;
 				}
 				/*TUTAJ MUSIMY ZMIENIC, PRZY WERYFIKACJI NAZWISK, ŻEBY BYŁO ZAMIAST 0 user_id */
-				List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,0);
+				List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,myId.intValue());
 				toClient.write("VOTE OK REM_TIME 3 "+accepted.size());
 				System.out.println("accepting vote");
 				toClient.flush();

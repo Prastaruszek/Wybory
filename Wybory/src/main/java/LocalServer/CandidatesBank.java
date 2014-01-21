@@ -114,7 +114,8 @@ public class CandidatesBank {
 		return result;
 	}
 	public List<Integer> verifyVotes(List<Integer> u_votes, int user_id){
-		
+		System.out.println("veryfying" + user_id);
+		System.out.println(u_votes);
 		List<Integer> accepted=new LinkedList<Integer>();
 		Iterator<Integer> it=u_votes.listIterator();
 		while(it.hasNext()){
