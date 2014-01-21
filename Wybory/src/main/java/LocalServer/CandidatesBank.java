@@ -11,11 +11,14 @@ class Candidate{
 	String forename;
 	String name;
 	Integer Id;
+	
 	public Candidate(String forename, String name, int id){
 		this.forename=forename;
 		this.name=name;
 		this.Id=id;
 	}
+	
+	
 	public String toString(){
 		return Id+". "+forename+" "+name+"\n";
 	}
