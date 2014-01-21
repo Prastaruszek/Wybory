@@ -239,6 +239,7 @@ public class ClientApp
 					}
 					else //SEND_LIST
 					{
+						System.out.println(s);
 						s = s.replaceFirst("SEND LIST ", "");
 						System.out.println("All candidates you voted on have lost. Remaining candidates are:");
 						

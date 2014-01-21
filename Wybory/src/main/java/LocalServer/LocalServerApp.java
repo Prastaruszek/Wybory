@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -17,6 +18,9 @@ public class LocalServerApp {
 	public static CandidatesBank candidatesBank;
 	public static Long end_of_turn;
 	static boolean allow=true;
+	static int curtur;
+	static List<List<Candidate>> toures=new LinkedList<List<Candidate>>();
+	
 	public static void loadCandidates(){
 	}
 	public static void main(String args[]){	

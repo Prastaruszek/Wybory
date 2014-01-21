@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -102,6 +103,15 @@ public class MSComunicationThread implements Runnable {
 				s=input.readLine();
 				if(s.matches("LOOSER .*")){
 					LocalServerApp.candidatesBank.loses(Integer.parseInt(s.replaceFirst("LOOSER ", "")));
+					List<Candidate> tempAdd=new ArrayList<Candidate>();
+					for(Candidate c: LocalServerApp.candidatesBank.getTempCandidatesList()){
+						tempAdd.add(c);
+					}
+					LocalServerApp.toures.add(tempAdd);
+					LocalServerApp.curtur++;
+					synchronized(Integer.class){
+						Integer.class.notifyAll();
+					}
 					read_time(input);
 				}
 				else{
