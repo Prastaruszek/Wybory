@@ -42,7 +42,7 @@ public class PasswordProtocol {
 			}
 			String login=s.replaceFirst("LOGIN: ", "");
 		
-			for (int i=1; i<=loginsPasswordsStore.numberOfUsers; i++)
+			for (int i=0; i<loginsPasswordsStore.numberOfUsers; i++)
 			{
 				if(login.equals(loginsPasswordsStore.logins[i]))
 				{
@@ -87,8 +87,9 @@ public class PasswordProtocol {
 			}
 			output.write("WRONG PASSWORD\n");
 			output.flush();
-			
 		}
+		AnEmptyIntToPlaceUserIdIn = userId;
+		System.out.println("to tez" + AnEmptyIntToPlaceUserIdIn);
 		return true;
 		
 	}

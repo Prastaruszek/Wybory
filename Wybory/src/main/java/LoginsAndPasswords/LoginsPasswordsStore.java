@@ -5,11 +5,11 @@ import java.security.spec.InvalidKeySpecException;
 
 public class LoginsPasswordsStore {
 	public int numberOfUsers = 100;	
-	public String logins[] = new String[numberOfUsers+1];
-	public byte salts[][] = new byte[numberOfUsers+1][];
-	public byte encryptedPasswords[][] = new byte[numberOfUsers+1][];
+	public String logins[] = new String[numberOfUsers];
+	public byte salts[][] = new byte[numberOfUsers][];
+	public byte encryptedPasswords[][] = new byte[numberOfUsers][];
 	public LoginsPasswordsStore(String basicLoginName, String basicPassword) {
-		for(int i=1; i<=numberOfUsers; i++)
+		for(int i=0; i<=numberOfUsers-1; i++)
 		{
 			logins[i] = new String(basicLoginName+i);
 			try {

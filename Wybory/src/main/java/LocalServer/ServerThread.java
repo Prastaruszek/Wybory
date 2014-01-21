@@ -35,7 +35,7 @@ public class ServerThread implements Runnable {
 			String s;
 			if(!PasswordProtocol.vertify(inFromClient, toClient, LocalServerApp.loginsPasswordsStore, myId))
 				return;
-			
+			System.out.println("to jest to: " + myId);
 			/*s=inFromClient.readLine();
 			System.out.println(s);
 			if(s==null || !s.equals("HELLO")){
