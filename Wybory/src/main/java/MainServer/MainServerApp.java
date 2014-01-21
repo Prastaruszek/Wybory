@@ -13,8 +13,18 @@ import java.io.IOException;
 public class MainServerApp {
 	static int numberOfThreads = 0;
 	static int roundTime = 20000, initializationTime = 40000;
+	static int numberOfUsers = 1000;
 	static long time=new Date().getTime()+roundTime + initializationTime;
 	static boolean end;
+	
+
+	static class LoginsAndPasswords
+	{
+		String logins[] = new String[numberOfUsers];
+		byte salts[][] = new byte[numberOfUsers][];
+	}
+	
+	
 	public static void main(String args[]){	
 		try{
 	    	System.setProperty("javax.net.ssl.keyStore","mySrvKeystore");
@@ -40,3 +50,4 @@ public class MainServerApp {
 		}
 	}
 }
+
