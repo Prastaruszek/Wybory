@@ -12,7 +12,7 @@ import LoginsAndPasswords.PasswordEncryptionService;
 
 public class MainServerApp {
 	static int numberOfThreads = 0;
-	static int roundTime = 60000, initializationTime = 100000;
+	static int roundTime = 100000, initializationTime = 100000;
 	static long time=new Date().getTime()+roundTime + initializationTime;
 	static boolean end;
 	

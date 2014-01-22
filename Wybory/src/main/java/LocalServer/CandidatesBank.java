@@ -44,7 +44,7 @@ public class CandidatesBank {
 	public List<Integer> sendList=new LinkedList<Integer>();
 	private boolean write=true;
 	private boolean[] active;
-	private int n;
+	private int numberOfVoters;
 	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
 		tempCandidates=new LinkedList<Candidate>();
@@ -62,7 +62,7 @@ public class CandidatesBank {
 		for(int i=0; i<=n; ++i){
 			active[i]=true;
 		}
-		this.n=n;
+		this.numberOfVoters=n;
 	}
 	public List<Candidate> getTempCandidatesList(){
 		return Collections.unmodifiableList(tempCandidates);
@@ -72,7 +72,7 @@ public class CandidatesBank {
 		List<Integer> sendList=new LinkedList<Integer>();
 		tempCandidates.remove(new Candidate("","",j));
 		canSendImmediatly=true;
-		for(int i=0; i<n; ++i){
+		for(int i=0; i<numberOfVoters; ++i){
 			List<Integer> li=votes.get(i);
 			boolean empty=(li.size()==0);
 			//System.out.println("hereee");

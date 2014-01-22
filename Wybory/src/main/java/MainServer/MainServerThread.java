@@ -22,6 +22,10 @@ public abstract class MainServerThread implements Runnable {
 		cl.add(new MSCandidate("Piotr", "Kawałek",1));
 		cl.add(new MSCandidate("Krzysztof", "Kleiner",2));
 		cl.add(new MSCandidate("Edward", "Szczypka",3));
+		cl.add(new MSCandidate("Paweł", "Maria",4));
+		cl.add(new MSCandidate("Maria", "Idziak", 5));
+		cl.add(new MSCandidate("Zając", "Zaionc", 6));
+		cl.add(new MSCandidate("Krul", "Korwin",7));
 		candidatesBank=new MSCandidatesBank(cl);
 	}
 	
