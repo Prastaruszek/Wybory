@@ -132,7 +132,7 @@ public class ServerThread implements Runnable {
 				}
 				toClient.write("\n");
 				toClient.flush();
-				while(temp_tour==LocalServerApp.curtur || !LocalServerApp.candidatesBank.sendList.contains(myId)){
+				while(!LocalServerApp.win && (temp_tour==LocalServerApp.curtur || !LocalServerApp.candidatesBank.sendList.contains(myId))){
 					try{
 							synchronized(Integer.class){
 								Integer.class.wait();
@@ -143,7 +143,8 @@ public class ServerThread implements Runnable {
 						e.printStackTrace();
 					}
 				}
-				if(LocalServerApp.win=true){
+				if(LocalServerApp.win){
+					System.out.println("odded");
 					toClient.write("SEND LIST 0 ");
 					toClient.flush();
 					toClient.write(LocalServerApp.winner+"\n");
@@ -154,9 +155,9 @@ public class ServerThread implements Runnable {
 				toClient.write("SEND LIST ");
 				System.out.println("Sendeing List to:" + myId);
 				toClient.flush();
-				toClient.write(new Integer(LocalServerApp.toures.get(temp_tour).size())+" ");
+				toClient.write(new Integer((LocalServerApp.toures.get(LocalServerApp.curtur)).size())+" ");
 				toClient.flush();
-				for(Candidate c: LocalServerApp.toures.get(temp_tour)){
+				for(Candidate c: LocalServerApp.toures.get(LocalServerApp.curtur)){
 					System.out.println(c);
 					toClient.write(c.Id.toString()+" ");
 					toClient.flush();
