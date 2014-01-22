@@ -105,54 +105,54 @@ public class ServerThread implements Runnable {
 						continue;
 					}
 				}
-				if(s.matches("GET LIST")){
-					
-				}
-				List<Integer> votes=new LinkedList<Integer>();
-				s=s.replaceFirst("VOTE ", "");
-				Pattern pat=Pattern.compile("\\d+");
-				Matcher mat=pat.matcher(s);
-				mat.find();
-				s=mat.group();
-				int num=Integer.parseInt(s);
-				Integer temp;
-				for(int i=0; i<num ; ++i){
-					if(!mat.find()){
-						/*ktos nas hackuje*/
+				if(!s.matches("GET LIST")){
+						
+					List<Integer> votes=new LinkedList<Integer>();
+					s=s.replaceFirst("VOTE ", "");
+					Pattern pat=Pattern.compile("\\d+");
+					Matcher mat=pat.matcher(s);
+					mat.find();
+					s=mat.group();
+					int num=Integer.parseInt(s);
+					Integer temp;
+					for(int i=0; i<num ; ++i){
+						if(!mat.find()){
+							/*ktos nas hackuje*/
+							inFromClient.close();
+							toClient.close();
+							return;
+						}
+						temp=Integer.parseInt(mat.group());
+						System.out.println(temp);
+						if(temp>=0)
+							votes.add(temp);
+					}
+					if(mat.find()){
+						System.out.println("bad protocol");
 						inFromClient.close();
 						toClient.close();
 						return;
 					}
-					temp=Integer.parseInt(mat.group());
-					System.out.println(temp);
-					if(temp>=0)
-						votes.add(temp);
-				}
-				if(mat.find()){
-					System.out.println("bad protocol");
-					inFromClient.close();
-					toClient.close();
-					return;
-				}
-				List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,myId.intValue());
-				toClient.write("VOTE OK " + accepted.size());
-				System.out.println("accepting vote");
-				toClient.flush();
-				for(Integer i: accepted){
-					toClient.write(" "+i.toString());
+					List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,myId.intValue());
+					toClient.write("VOTE OK " + accepted.size());
+					System.out.println("accepting vote");
 					toClient.flush();
-				}
-				toClient.write("\n");
-				toClient.flush();
-				while(!LocalServerApp.win && (temp_tour==LocalServerApp.curtur || !LocalServerApp.candidatesBank.sendList.contains(myId))){
-					try{
-							synchronized(Integer.class){
-								Integer.class.wait();
-								Integer.class.notifyAll();
-							}
+					for(Integer i: accepted){
+						toClient.write(" "+i.toString());
+						toClient.flush();
 					}
-					catch(InterruptedException e){
-						e.printStackTrace();
+					toClient.write("\n");
+					toClient.flush();
+					while(!LocalServerApp.win && (temp_tour==LocalServerApp.curtur || !LocalServerApp.candidatesBank.sendList.contains(myId))){
+						try{
+								synchronized(Integer.class){
+									Integer.class.wait();
+									Integer.class.notifyAll();
+								}
+						}
+						catch(InterruptedException e){
+							e.printStackTrace();
+						}
 					}
 				}
 				if(LocalServerApp.win){
