@@ -297,12 +297,8 @@ public class ClientApp
 			s = s.replaceFirst("1 ", "");
 			Integer candNr = new Integer(s);
 			System.out.println("Candidate " + candidates[candNr].name + " has won. Voting ended.");
-			try {
-				//TODO
-				Thread.sleep(100000000);
-			} catch (InterruptedException e){
-				
-			}
+			System.exit(0);
+			
 		}
 		
 		s = s.replaceFirst("REM_TIME ", "");
