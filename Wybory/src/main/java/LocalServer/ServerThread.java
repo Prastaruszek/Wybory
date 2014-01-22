@@ -122,7 +122,7 @@ public class ServerThread implements Runnable {
 					return;
 				}
 				List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,myId.intValue());
-				toClient.write("VOTE OK REM_TIME 3 "+accepted.size());
+				toClient.write("VOTE OK " + accepted.size());
 				System.out.println("accepting vote");
 				toClient.flush();
 				for(Integer i: accepted){
@@ -150,7 +150,7 @@ public class ServerThread implements Runnable {
 					return;
 				}
 				temp_tour++;
-				toClient.write("SEND LIST ");
+				toClient.write("SEND LIST REM_TIME" + LocalServerApp.end_of_turn + " ");
 				System.out.println("Sendeing List to:" + myId);
 				toClient.flush();
 				toClient.write(new Integer((LocalServerApp.toures.get(LocalServerApp.curtur)).size())+" ");
