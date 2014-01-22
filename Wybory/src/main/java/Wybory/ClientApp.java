@@ -70,7 +70,7 @@ public class ClientApp
 			//e.printStackTrace();
 		}
 		catch(IOException e){
-			System.out.println(e+"cl_app_beggining");
+			e.printStackTrace();
 		}
 		
 		
@@ -139,7 +139,6 @@ public class ClientApp
 			{
 				if(end_of_turn - new Date().getTime() <= 0)
 				{
-					System.out.println("aaa");
 					output.write("VOTE -1\n");
 					output.flush();
 					s = input.readLine();
@@ -218,7 +217,6 @@ public class ClientApp
 					if(s.equals("y"))
 					{
 						output.write("VOTE " + howManyVotes + mes.toString()+"\n");
-						System.out.println(mes.toString());
 						output.flush();
 						break;
 					}
@@ -245,12 +243,11 @@ public class ClientApp
 						}
 						else if(howManyVotesAccepted == 0)
 						{
-							System.out.println("Sorry, none of your votes were valid!");
+							System.out.println("None of your votes were valid!");
 						}
 						else
 						{
 							System.out.println("Some of your votes were invalid, but these were accepted:");
-							System.out.println(howManyVotes + " " + howManyVotesAccepted);
 							for(int j=0; j<howManyVotesAccepted ; ++j)
 							{
 								if(!mat.find())
@@ -273,7 +270,6 @@ public class ClientApp
 			e.printStackTrace();
 		}
 		catch(Exception e){
-			System.out.println("no niefajnie");
 			e.printStackTrace();
 		}
 	}
@@ -283,7 +279,6 @@ public class ClientApp
 	
 	static void receiveList(String s, boolean afterEmptyVoting)
 	{
-		System.out.println(s);
 		s = s.replaceFirst("SEND LIST ", "");
 		if(s.matches("1 .*")){
 			s = s.replaceFirst("1 ", "");
@@ -300,7 +295,6 @@ public class ClientApp
 		s = s.replaceFirst("REM_TIME ", "");
 		Pattern pat=Pattern.compile("\\d+");
 		Matcher mat=pat.matcher(s);
-		System.out.println("to je to " + s);
 		mat.find();
 		setAndWriteTimeRemaining(mat.group());
 		mat.find();
