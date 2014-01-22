@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.ObjectInputStream.GetField;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Scanner;
@@ -31,16 +32,18 @@ public class ClientApp
 		}
 	}
 	static Candidate[] candidates = new Candidate[100];
+	static Long end_of_turn;
 	
-	
-	static void timeRemaining(String s)
+	static void setAndWriteTimeRemaining(String s)
 	{
-		Long time = new Long(s.replaceFirst("REM_TIME: ", ""))-new Date().getTime();
+		Long time = new Long(s)-new Date().getTime();
+		end_of_turn = new Long(s);
 		time/=1000;
 		System.out.println("Time remaining to send fist part of votes: " + time/60 + " minutes " + time%60 + " seconds.");
 	}
-	static void timeRemaining(Integer time)
+	static void writeTimeRemaining()
 	{
+		Long time = end_of_turn - new Date().getTime();
 		System.out.println("Time remaining to send fist part of votes: " + time/60 + " minutes " + time%60 + " seconds.");
 	}
 
@@ -113,7 +116,8 @@ public class ClientApp
 
 				
 			s = input.readLine();
-			timeRemaining(s);
+			s.replaceFirst("REM_TIME ", "");
+			setAndWriteTimeRemaining(s);
 			
 			s = input.readLine();
 			System.out.println("Candidates are:");
@@ -137,7 +141,7 @@ public class ClientApp
 				s = sc.nextLine();
 				if(s.equals("t"))
 				{
-				//	timeRemaining();
+					writeTimeRemaining();
 					continue;
 				}
 				else if(!s.equals("v")) continue;
@@ -192,7 +196,7 @@ public class ClientApp
 				
 				while(true)
 				{
-					System.out.println("Votes correct. Proceed? You cannot cancel this operation. [y/n]");
+					System.out.println("Votes format correct. Proceed? You cannot cancel this operation. [y/n]");
 					s = sc.nextLine();
 					if(s.equals("y"))
 					{
@@ -226,11 +230,11 @@ public class ClientApp
 						}
 						else if(howManyVotesAccepted == 0)
 						{
-							System.out.println("Sorry, none of your votes were correct!");
+							System.out.println("Sorry, none of your votes were valid!");
 						}
 						else
 						{
-							System.out.println("Some of your votes were incorrect, but these were accepted:");
+							System.out.println("Some of your votes were invalid, but these were accepted:");
 							for(int j=0; j<howManyVotesAccepted ; ++j)
 							{
 								if(!mat.find())
@@ -245,15 +249,9 @@ public class ClientApp
 					{
 						System.out.println(s);
 						s = s.replaceFirst("SEND LIST ", "");
-						
-						Pattern pat=Pattern.compile("\\d+");
-						Matcher mat=pat.matcher(s);
-						
-						mat.find();
-						int candidatesPresentQuantity = new Integer(mat.group());
-						if(candidatesPresentQuantity == 0){
-							mat.find();
-							Integer candNr = new Integer(mat.group());
+						if(s.matches("0")){
+							s.replaceFirst("0 ", "");
+							Integer candNr = new Integer(s);
 							System.out.println(candidates[candNr] + "won! Voting ended.");
 							try {
 								//TODO
@@ -262,6 +260,15 @@ public class ClientApp
 								
 							}
 						}
+						
+						s.replaceFirst("REM_TIME ", "");
+						Pattern pat=Pattern.compile("\\d+");
+						Matcher mat=pat.matcher(s);
+						
+						mat.find();
+						setAndWriteTimeRemaining(mat.group());
+						mat.find();
+						int candidatesPresentQuantity = new Integer(mat.group());
 						System.out.println("All candidates you voted on have lost. Remaining candidates are:");
 						for(int j=1; j<=candidatesQuantity; j++)
 						{
