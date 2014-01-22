@@ -88,7 +88,7 @@ public class ServerThread implements Runnable {
 				int temp_tour=LocalServerApp.curtur;
 				s=inFromClient.readLine();
 				System.out.println(s);
-				if(s==null || !s.matches("VOTE( \\d+)+")){
+				if(s==null || !s.matches("VOTE( -?\\d+)+")){
 					System.out.println("bad hacker\n");
 					inFromClient.close();
 					toClient.close();
@@ -113,7 +113,6 @@ public class ServerThread implements Runnable {
 							return;
 						}
 						temp=Integer.parseInt(mat.group());
-						System.out.println(temp);
 						if(temp>=0)
 							votes.add(temp);
 					}
@@ -148,6 +147,7 @@ public class ServerThread implements Runnable {
 				if(LocalServerApp.win){
 					System.out.println("odded");
 					toClient.write("SEND LIST 1 ");
+					toClient.flush();
 					toClient.write(LocalServerApp.winner+"\n");
 					toClient.flush();
 					return;

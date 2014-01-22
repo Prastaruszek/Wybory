@@ -139,8 +139,10 @@ public class ClientApp
 			{
 				if(end_of_turn - new Date().getTime() <= 0)
 				{
-					output.write("VOTE -1");
+					System.out.println("aaa");
+					output.write("VOTE -1\n");
 					output.flush();
+					s = input.readLine();
 					receiveList(s, true);
 				}
 				System.out.println("[While entering votes, send the line ended with 'c' to cancel.]\n"
@@ -164,6 +166,7 @@ public class ClientApp
 					{
 						output.write("VOTE -1");
 						output.flush();
+						s = input.readLine();
 						receiveList(s, true);
 					}
 
@@ -235,7 +238,6 @@ public class ClientApp
 						Matcher mat=pat.matcher(s);
 						
 						mat.find();
-						mat.find();
 						int howManyVotesAccepted = new Integer(mat.group());
 						if(howManyVotesAccepted == howManyVotes)
 						{
@@ -248,6 +250,7 @@ public class ClientApp
 						else
 						{
 							System.out.println("Some of your votes were invalid, but these were accepted:");
+							System.out.println(howManyVotes + " " + howManyVotesAccepted);
 							for(int j=0; j<howManyVotesAccepted ; ++j)
 							{
 								if(!mat.find())
@@ -277,17 +280,18 @@ public class ClientApp
 
 /*******************************************************************/
 
+	
 	static void receiveList(String s, boolean afterEmptyVoting)
 	{
 		System.out.println(s);
 		s = s.replaceFirst("SEND LIST ", "");
-		if(s.matches("1")){
+		if(s.matches("1 .*")){
 			s = s.replaceFirst("1 ", "");
 			Integer candNr = new Integer(s);
-			System.out.println(candidates[candNr] + "won! Voting ended.");
+			System.out.println("Candidate " + candidates[candNr].name + " has won. Voting ended.");
 			try {
 				//TODO
-				candNr.wait();
+				Thread.sleep(100000000);
 			} catch (InterruptedException e){
 				
 			}
@@ -296,7 +300,7 @@ public class ClientApp
 		s = s.replaceFirst("REM_TIME ", "");
 		Pattern pat=Pattern.compile("\\d+");
 		Matcher mat=pat.matcher(s);
-		
+		System.out.println("to je to " + s);
 		mat.find();
 		setAndWriteTimeRemaining(mat.group());
 		mat.find();
