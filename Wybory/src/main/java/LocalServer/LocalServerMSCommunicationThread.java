@@ -109,8 +109,12 @@ public class LocalServerMSCommunicationThread implements Runnable {
 							Integer.class.notifyAll();
 						}
 						//System.out.println(s);
-						
-						return;
+						try{
+							Thread.sleep(30000);
+						}catch(InterruptedException e){
+							
+						}
+						System.exit(0);
 					}
 					//System.out.println("Czy mam przyspieszyc?"+LocalServerApp.candidatesBank.canSendImmediatly);
 				}while(LocalServerApp.candidatesBank.canSendImmediatly);

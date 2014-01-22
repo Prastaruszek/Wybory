@@ -106,6 +106,12 @@ public class MainServerCommunicationThread extends MainServerThreadAbstractClass
 				
 				write_time(output);
 			}
+			try{
+				Thread.sleep(10000);
+			}catch(InterruptedException e){
+				
+			}
+			System.exit(0);
 		}
 		catch(IOException e){
 			//e.printStackTrace();
