@@ -65,7 +65,6 @@ public class PasswordProtocol {
 			String pass=s.replaceFirst("PASS: ", "");
 			Pattern pat = Pattern.compile("-?\\d+");
 			Matcher mat = pat.matcher(pass); 
-			System.out.println(mat.groupCount());
 			byte[] encPass = new byte[1000];
 			int j;
 			for (j=0; ; j++)
