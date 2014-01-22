@@ -13,10 +13,10 @@ import java.util.regex.Pattern;
 import javax.net.ssl.SSLSocket;
 
 import LoginsAndPasswords.LoginsPasswordsStore;
-import LoginsAndPasswords.PasswordEncryptionService;
+import LoginsAndPasswords.PasswordEncryption;
 import LoginsAndPasswords.PasswordProtocol;
 
-public class MainServerCommunicationThread extends MainServerThread{
+public class MainServerCommunicationThread extends MainServerThreadAbstractClass{
 	
 	SSLSocket socket;
 	Integer userId;

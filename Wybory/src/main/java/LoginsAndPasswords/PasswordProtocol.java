@@ -77,7 +77,7 @@ public class PasswordProtocol {
 			for (int k=0; k<j; k++)
 				encPassCutToLength[k] = encPass[k];
 			
-			if(PasswordEncryptionService.authenticate(encPassCutToLength, loginsPasswordsStore.encryptedPasswords[userId],
+			if(PasswordEncryption.checkPassword(encPassCutToLength, loginsPasswordsStore.encryptedPasswords[userId],
 					loginsPasswordsStore.salts[userId]))
 			{
 				output.write("LOGIN OK\n");
@@ -133,7 +133,7 @@ public class PasswordProtocol {
 			System.out.println("password: ");
 			s = sc.nextLine();			
 			try {
-				encPass = PasswordEncryptionService.getEncryptedPassword(s, salt);
+				encPass = PasswordEncryption.getEncryptedPassword(s, salt);
 			} catch (Exception e){
 				e.printStackTrace();
 			}

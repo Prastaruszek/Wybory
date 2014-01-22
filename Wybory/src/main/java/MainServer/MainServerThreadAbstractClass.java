@@ -12,11 +12,11 @@ import javax.net.ssl.SSLSocket;
 import LoginsAndPasswords.LoginsPasswordsStore;
 
 
-public abstract class MainServerThread implements Runnable {
+public abstract class MainServerThreadAbstractClass implements Runnable {
 	static Object monitor = new Object();
 	static Integer registeredThreads = 0;
 	static Integer looserIndex = -1;
-	public static MSCandidatesBank candidatesBank;
+	public static MainServerCandidatesBank candidatesBank;
 	public static void loadCandidates(){
 		LinkedList<MSCandidate> cl=new LinkedList<MSCandidate>();
 		cl.add(new MSCandidate("Piotr", "Kawałek",1));
@@ -26,7 +26,7 @@ public abstract class MainServerThread implements Runnable {
 		cl.add(new MSCandidate("Maria", "Idziak", 5));
 		cl.add(new MSCandidate("Zając", "Zaionc", 6));
 		cl.add(new MSCandidate("Krul", "Korwin",7));
-		candidatesBank=new MSCandidatesBank(cl);
+		candidatesBank=new MainServerCandidatesBank(cl);
 	}
 	
 	

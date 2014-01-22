@@ -35,7 +35,7 @@ class Client{
 	int id;
 }
 
-public class CandidatesBank {
+public class LocalServerCandidatesBank {
 	private List<Candidate> candidatesList;
 	private List<Candidate> tempCandidates;
 	private ArrayList<List<Integer>> votes;
@@ -45,7 +45,7 @@ public class CandidatesBank {
 	private boolean write=true;
 	private boolean[] active;
 	private int numberOfVoters;
-	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
+	public LocalServerCandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
 		tempCandidates=new LinkedList<Candidate>();
 		LocalServerApp.toures.add(new ArrayList());

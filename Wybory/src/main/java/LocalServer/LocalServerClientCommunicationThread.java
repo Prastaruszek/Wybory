@@ -19,9 +19,9 @@ import javax.net.ssl.SSLSocketFactory;
 
 import LoginsAndPasswords.PasswordProtocol;
 
-public class ServerThread implements Runnable {
+public class LocalServerClientCommunicationThread implements Runnable {
 	SSLSocket socket;
-	public ServerThread(SSLSocket socket){
+	public LocalServerClientCommunicationThread(SSLSocket socket){
 		this.socket=socket;
 	}
 	Integer myId;
