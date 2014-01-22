@@ -17,7 +17,7 @@ import java.util.Scanner;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class LocalServerApp {
-	public static CandidatesBank candidatesBank;
+	public static LocalServerCandidatesBank candidatesBank;
 	public static Long end_of_turn;
 	static boolean allow=true;
 	static int curtur;
@@ -44,16 +44,17 @@ public class LocalServerApp {
 				portNr = new Integer(s);
 			SSLServerSocket welcomeSocket=(SSLServerSocket)SocketFactory.createServerSocket(portNr);
 						//welcomeSocket.setEnabledCipherSuites(new String[] {"TLS_RSA_WITH_AES_128_CBC_SHA"});
-			new Thread(new MSComunicationThread()).start();
+			new Thread(new LocalServerMSCommunicationThread()).start();
 			while(true){
 				SSLSocket connectionSocket=(SSLSocket)welcomeSocket.accept();
 				/*for(String x : connectionSocket.getEnabledCipherSuites()){
 					System.out.println(x);
 				}*/
-				new Thread(new ServerThread(connectionSocket)).start();
+				new Thread(new LocalServerClientCommunicationThread(connectionSocket)).start();
 			}
 		}
 		catch(IOException e){
+			System.out.println(e+"tata");
 		}
 	}
 }

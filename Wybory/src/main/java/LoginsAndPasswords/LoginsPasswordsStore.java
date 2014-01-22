@@ -13,8 +13,8 @@ public class LoginsPasswordsStore {
 		{
 			logins[i] = new String(basicLoginName+i);
 			try {
-				salts[i] = PasswordEncryptionService.generateSalt();
-				encryptedPasswords[i] = PasswordEncryptionService.getEncryptedPassword(
+				salts[i] = PasswordEncryption.generateSalt();
+				encryptedPasswords[i] = PasswordEncryption.getEncryptedPassword(
 						basicPassword + i, salts[i]);
 			}
 			catch (NoSuchAlgorithmException e){

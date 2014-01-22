@@ -2,7 +2,7 @@ package MainServer;
 
 import java.util.Date;
 
-public class MainServerPrimaryThread extends MainServerThread {
+public class MainServerPrimaryThread extends MainServerThreadAbstractClass {
 	public void run() {
 		synchronized (this) {
 			try {

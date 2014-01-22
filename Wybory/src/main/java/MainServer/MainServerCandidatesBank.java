@@ -30,10 +30,10 @@ class MSCandidate{
 }
 
 
-public class MSCandidatesBank {
+public class MainServerCandidatesBank {
 	private List<MSCandidate> candidatesList;
 	private List<MSCandidate> tempCandidates;
-	public MSCandidatesBank(LinkedList<MSCandidate> candidatesList){
+	public MainServerCandidatesBank(LinkedList<MSCandidate> candidatesList){
 		this.candidatesList=candidatesList;
 		this.tempCandidates=(LinkedList<MSCandidate>) candidatesList.clone();
 	}

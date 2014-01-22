@@ -18,10 +18,10 @@ import java.util.regex.PatternSyntaxException;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
-import LoginsAndPasswords.PasswordEncryptionService;
+import LoginsAndPasswords.PasswordEncryption;
 import LoginsAndPasswords.PasswordProtocol;
 
-public class MSComunicationThread implements Runnable {
+public class LocalServerMSCommunicationThread implements Runnable {
 	
 	private void read_time(BufferedReader input) throws IOException{
 		String s = input.readLine();
@@ -58,7 +58,7 @@ public class MSComunicationThread implements Runnable {
 							new Integer(s.replaceAll("\\D+", ""))));
 				sca.close();
 			}
-			LocalServerApp.candidatesBank=new CandidatesBank(tempCand, 100);
+			LocalServerApp.candidatesBank=new LocalServerCandidatesBank(tempCand, 100);
 			while(true){
 				while(true)
 				{
@@ -103,10 +103,7 @@ public class MSComunicationThread implements Runnable {
 							Integer.class.notifyAll();
 						}
 						//System.out.println(s);
-						try{
-							Thread.sleep(30000);
-						}catch(Exception e){}
-						System.exit(0);
+						
 						return;
 					}
 					//System.out.println("Czy mam przyspieszyc?"+LocalServerApp.candidatesBank.canSendImmediatly);

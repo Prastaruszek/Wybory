@@ -8,7 +8,7 @@ import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 
 import LoginsAndPasswords.LoginsPasswordsStore;
-import LoginsAndPasswords.PasswordEncryptionService;
+import LoginsAndPasswords.PasswordEncryption;
 
 public class MainServerApp {
 	static int numberOfThreads = 0;
@@ -26,7 +26,7 @@ public class MainServerApp {
 			SSLServerSocket welcomeSocket=(SSLServerSocket)SocketFactory.createServerSocket(20006);
 
 			//welcomeSocket.setEnabledCipherSuites(new String[] {"TLS_RSA_WITH_AES_128_CBC_SHA"});
-			MainServerThread.loadCandidates();
+			MainServerThreadAbstractClass.loadCandidates();
 			new Thread(new MainServerPrimaryThread()).start();
 			while(true){
 				SSLSocket connectionSocket=(SSLSocket)welcomeSocket.accept();

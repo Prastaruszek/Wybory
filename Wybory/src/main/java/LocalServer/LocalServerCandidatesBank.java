@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 /**
  * Klasa przechowująca informacje o kandydacie
  * 
@@ -28,6 +27,7 @@ class Candidate{
     * @param message String variable to be printed
     * @since version 1.00
     */
+	
 	public Candidate(String forename, String name, int id){
 		this.forename=forename;
 		this.name=name;
@@ -51,7 +51,7 @@ class Client{
 	int id;
 }
 
-public class CandidatesBank {
+public class LocalServerCandidatesBank {
 	private List<Candidate> candidatesList;
 	private List<Candidate> tempCandidates;
 	private ArrayList<List<Integer>> votes;
@@ -61,7 +61,7 @@ public class CandidatesBank {
 	private boolean write=true;
 	private boolean[] active;
 	private int numberOfVoters;
-	public CandidatesBank(LinkedList<Candidate> candidatesList, int n){
+	public LocalServerCandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
 		tempCandidates=new LinkedList<Candidate>();
 		LocalServerApp.toures.add(new ArrayList());
