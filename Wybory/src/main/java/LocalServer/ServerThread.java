@@ -97,11 +97,13 @@ public class ServerThread implements Runnable {
 				}
 				if(s.matches("VOTE -1.*")){
 					if(LocalServerApp.win){
-						toClient.write("VOTE OK -1\n");
+						toClient.write("VOTE EMPTY "+LocalServerApp.winner.toString()+"\n");
 						toClient.flush();
 						return;
 					}
 					else{
+						toClient.write("VOTE EMPTY "+0+"\n");
+						toClient.flush();
 						continue;
 					}
 				}
