@@ -289,7 +289,12 @@ public class ClientApp
 
 /*******************************************************************/
 
-	
+	/**
+	 * The function that analises the SEND LIST communicat and informs the client wheather 
+	 * his vote was accepted it also informs when elections have ended.
+	 * @param s
+	 * @param afterEmptyVoting 
+	 */
 	static void receiveList(String s, boolean afterEmptyVoting)
 	{
 		s = s.replaceFirst("SEND LIST ", "");
