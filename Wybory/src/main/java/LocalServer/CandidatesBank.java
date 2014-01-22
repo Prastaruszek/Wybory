@@ -7,11 +7,27 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ * Klasa przechowująca informacje o kandydacie
+ * 
+ * 
+ *
+ * 
+ */
 class Candidate{
 	String forename;
 	String name;
 	Integer Id;
 	
+	/**
+    *
+    * Konstruuje kandydata o 
+    *
+    * 
+    *
+    * @param message String variable to be printed
+    * @since version 1.00
+    */
 	public Candidate(String forename, String name, int id){
 		this.forename=forename;
 		this.name=name;

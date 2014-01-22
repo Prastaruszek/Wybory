@@ -103,7 +103,10 @@ public class MSComunicationThread implements Runnable {
 							Integer.class.notifyAll();
 						}
 						//System.out.println(s);
-						
+						try{
+							Thread.sleep(30000);
+						}catch(Exception e){}
+						System.exit(0);
 						return;
 					}
 					//System.out.println("Czy mam przyspieszyc?"+LocalServerApp.candidatesBank.canSendImmediatly);
