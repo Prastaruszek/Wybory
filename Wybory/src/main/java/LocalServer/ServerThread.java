@@ -88,25 +88,14 @@ public class ServerThread implements Runnable {
 				int temp_tour=LocalServerApp.curtur;
 				s=inFromClient.readLine();
 				System.out.println(s);
-				if(s==null || !s.matches("VOTE( \\d+)+") && !s.matches("GET LIST")){
+				if(s==null || !s.matches("VOTE( \\d+)+")){
 					System.out.println("bad hacker\n");
 					inFromClient.close();
 					toClient.close();
 					return;
 				}
-				if(s.matches("VOTE -1.*")){
-					if(LocalServerApp.win){
-						toClient.write("VOTE EMPTY "+LocalServerApp.winner.toString()+"\n");
-						toClient.flush();
-						return;
-					}
-					else{
-						toClient.write("VOTE EMPTY "+0+"\n");
-						toClient.flush();
-						continue;
-					}
-				}
-				if(!s.matches("GET LIST")){
+				
+				if(!s.matches("VOTE -1.*")){
 						
 					List<Integer> votes=new LinkedList<Integer>();
 					s=s.replaceFirst("VOTE ", "");
@@ -158,7 +147,7 @@ public class ServerThread implements Runnable {
 				}
 				if(LocalServerApp.win){
 					System.out.println("odded");
-					toClient.write("SEND LIST 0 ");
+					toClient.write("SEND LIST 1 ");
 					toClient.write(LocalServerApp.winner+"\n");
 					toClient.flush();
 					return;
