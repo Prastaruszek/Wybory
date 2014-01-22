@@ -143,6 +143,13 @@ public class ServerThread implements Runnable {
 						e.printStackTrace();
 					}
 				}
+				if(LocalServerApp.win=true){
+					toClient.write("SEND LIST 0 ");
+					toClient.flush();
+					toClient.write(LocalServerApp.winner+"\n");
+					toClient.flush();
+					return;
+				}
 				temp_tour++;
 				toClient.write("SEND LIST ");
 				System.out.println("Sendeing List to:" + myId);

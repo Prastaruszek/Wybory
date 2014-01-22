@@ -24,6 +24,8 @@ public class LocalServerApp {
 	static List<List<Candidate>> toures=new LinkedList<List<Candidate>>();
 	static Scanner sc = new Scanner(System.in);
 	static LoginsPasswordsStore loginsPasswordsStore = new LoginsPasswordsStore("u", "p");
+	static boolean win;
+	static Integer winner;
 
 	public static void loadCandidates(){
 	}

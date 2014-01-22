@@ -105,7 +105,12 @@ public class MSComunicationThread implements Runnable {
 						read_time(input);
 					}
 					else{
-						System.out.println(s);
+						LocalServerApp.winner=Integer.parseInt(s.replaceFirst("WINNER ", ""));
+						LocalServerApp.win=true;
+						synchronized(Integer.class){
+							Integer.class.notifyAll();
+						}
+						//System.out.println(s);
 						
 						return;
 					}
