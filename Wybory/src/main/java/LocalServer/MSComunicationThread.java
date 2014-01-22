@@ -62,7 +62,7 @@ public class MSComunicationThread implements Runnable {
 				sca.close();
 				System.out.println(s);
 			}
-			LocalServerApp.candidatesBank=new CandidatesBank(tempCand, 4);
+			LocalServerApp.candidatesBank=new CandidatesBank(tempCand, 100);
 			while(true){
 				while(true)
 				{
@@ -88,8 +88,10 @@ public class MSComunicationThread implements Runnable {
 					output.flush();
 					System.out.println(j);
 					s=input.readLine();
+					System.out.println(s);
 					if(s.matches("LOOSER .*")){
 						LocalServerApp.candidatesBank.loses(Integer.parseInt(s.replaceFirst("LOOSER ", "")));
+						
 						List<Candidate> tempAdd=new ArrayList<Candidate>();
 						for(Candidate c: LocalServerApp.candidatesBank.getTempCandidatesList()){
 							tempAdd.add(c);
@@ -107,6 +109,7 @@ public class MSComunicationThread implements Runnable {
 						
 						return;
 					}
+					System.out.println("Czy mam przyspieszyc?"+LocalServerApp.candidatesBank.canSendImmediatly);
 				}while(LocalServerApp.candidatesBank.canSendImmediatly);
 			}
 		} catch (UnknownHostException e) {
