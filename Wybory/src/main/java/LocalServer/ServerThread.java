@@ -121,7 +121,6 @@ public class ServerThread implements Runnable {
 					toClient.close();
 					return;
 				}
-				/*TUTAJ MUSIMY ZMIENIC, PRZY WERYFIKACJI NAZWISK, ŻEBY BYŁO ZAMIAST 0 user_id */
 				List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,myId.intValue());
 				toClient.write("VOTE OK REM_TIME 3 "+accepted.size());
 				System.out.println("accepting vote");
@@ -143,10 +142,11 @@ public class ServerThread implements Runnable {
 						e.printStackTrace();
 					}
 				}
+				System.out.println("zaraz wygra, na pewno wygra");
 				if(LocalServerApp.win=true){
 					toClient.write("SEND LIST 0 ");
-					toClient.flush();
 					toClient.write(LocalServerApp.winner+"\n");
+					System.out.println("no wygrał");
 					toClient.flush();
 					return;
 				}
