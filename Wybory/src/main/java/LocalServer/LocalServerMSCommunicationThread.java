@@ -21,7 +21,7 @@ import javax.net.ssl.SSLSocketFactory;
 import LoginsAndPasswords.PasswordEncryption;
 import LoginsAndPasswords.PasswordProtocol;
 
-public class LocalServerMSComunicationThread implements Runnable {
+public class LocalServerMSCommunicationThread implements Runnable {
 	
 	private void read_time(BufferedReader input) throws IOException{
 		String s = input.readLine();

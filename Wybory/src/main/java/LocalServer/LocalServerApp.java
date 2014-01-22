@@ -44,7 +44,7 @@ public class LocalServerApp {
 				portNr = new Integer(s);
 			SSLServerSocket welcomeSocket=(SSLServerSocket)SocketFactory.createServerSocket(portNr);
 						//welcomeSocket.setEnabledCipherSuites(new String[] {"TLS_RSA_WITH_AES_128_CBC_SHA"});
-			new Thread(new LocalServerMSComunicationThread()).start();
+			new Thread(new LocalServerMSCommunicationThread()).start();
 			while(true){
 				SSLSocket connectionSocket=(SSLSocket)welcomeSocket.accept();
 				/*for(String x : connectionSocket.getEnabledCipherSuites()){
