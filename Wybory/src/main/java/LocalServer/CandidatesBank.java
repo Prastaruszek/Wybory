@@ -71,19 +71,19 @@ public class CandidatesBank {
 	public void loses(Integer j){
 		List<Integer> sendList=new LinkedList<Integer>();
 		tempCandidates.remove(new Candidate("","",j));
+		canSendImmediatly=true;
 		for(int i=0; i<n; ++i){
-			canSendImmediatly=true;
 			List<Integer> li=votes.get(i);
 			boolean empty=(li.size()==0);
-			System.out.println("hereee");
-			System.out.println("tutaj");
+			//System.out.println("hereee");
+			//System.out.println("tutaj");
 					
 			while(li.size()>0 && !tempCandidates.contains(new Candidate("","",li.get(0)))){
 				System.out.println("problem sprawia"+li.get(0));
-				canSendImmediatly=false;
 				li.remove(0);
 			}
 			if(li.size()==0 && !empty){
+				canSendImmediatly=false;
 				sendList.add(i);
 			}
 		}
