@@ -65,11 +65,10 @@ public class ServerThread implements Runnable {
 			//\AUTHENTICATION
 			//SHOW CANDIDATES
 			
-			toClient.write("REM_TIME: ");
+			toClient.write("REM_TIME ");
 			toClient.flush();
 			toClient.write(LocalServerApp.end_of_turn+"\n");
 			toClient.flush();
-			System.out.println("czas: "+(LocalServerApp.end_of_turn));
 			toClient.write("CANDIDATES ARE:\n");
 			toClient.flush();
 			toClient.write(new Integer(LocalServerApp.candidatesBank.getTempCandidatesList().size())
@@ -165,7 +164,7 @@ public class ServerThread implements Runnable {
 					return;
 				}
 				temp_tour++;
-				toClient.write("SEND LIST REM_TIME" + LocalServerApp.end_of_turn + " ");
+				toClient.write("SEND LIST REM_TIME " + LocalServerApp.end_of_turn + " ");
 				System.out.println("Sendeing List to:" + myId);
 				toClient.flush();
 				toClient.write(new Integer((LocalServerApp.toures.get(LocalServerApp.curtur)).size())+" ");

@@ -32,6 +32,7 @@ public class ClientApp
 		}
 	}
 	static Candidate[] candidates = new Candidate[100];
+	static Integer candidatesQuantity;
 	static Long end_of_turn;
 	
 	static void setAndWriteTimeRemaining(String s)
@@ -49,8 +50,8 @@ public class ClientApp
 
 	
 	public static void main(String args[]){	
-	SSLSocket socket = null;
-	Scanner sc = new Scanner(System.in);
+		SSLSocket socket = null;
+		Scanner sc = new Scanner(System.in);
 		try{
 	    	System.setProperty("javax.net.ssl.trustStore","LsKeystore");
     		System.setProperty("javax.net.ssl.trustStorePassword","admin12");
@@ -116,13 +117,13 @@ public class ClientApp
 
 				
 			s = input.readLine();
-			s.replaceFirst("REM_TIME ", "");
+			s = s.replaceFirst("REM_TIME ", "");
 			setAndWriteTimeRemaining(s);
 			
 			s = input.readLine();
 			System.out.println("Candidates are:");
 			s = input.readLine();
-			Integer candidatesQuantity = new Integer(s);
+			candidatesQuantity = new Integer(s);
 			for (int i=1; i<=candidatesQuantity; i++)
 			{
 				s = input.readLine();
@@ -136,6 +137,12 @@ public class ClientApp
 			vtLoop:
 			while(true)
 			{
+				if(end_of_turn - new Date().getTime() <= 0)
+				{
+					output.write("VOTE -1");
+					output.flush();
+					receiveList(s, true);
+				}
 				System.out.println("[While entering votes, send the line ended with 'c' to cancel.]\n"
 						+ "[v - vote, t - get remaining time]");
 				s = sc.nextLine();
@@ -153,6 +160,13 @@ public class ClientApp
 				typeVotesLoop:
 				while(true)
 				{
+					if(end_of_turn - new Date().getTime() <= 0)
+					{
+						output.write("VOTE -1");
+						output.flush();
+						receiveList(s, true);
+					}
+
 					System.out.println("Type your votes:");
 					s = sc.nextLine();
 					if(s.matches(".*c") || s.matches(".*C"))
@@ -213,15 +227,14 @@ public class ClientApp
 				{
 
 					s = input.readLine();
-					if(s.startsWith("VOTE OK REM_TIME"))
+					if(s.startsWith("VOTE OK "))
 					{
-						s = s.replaceFirst("VOTE OK REM_TIME ", "");
+						s = s.replaceFirst("VOTE OK ", "");
 						
 						Pattern pat=Pattern.compile("\\d+");
 						Matcher mat=pat.matcher(s);
 						
 						mat.find();
-						Integer remTime = new Integer(mat.group());
 						mat.find();
 						int howManyVotesAccepted = new Integer(mat.group());
 						if(howManyVotesAccepted == howManyVotes)
@@ -247,40 +260,7 @@ public class ClientApp
 					}
 					else //SEND_LIST
 					{
-						System.out.println(s);
-						s = s.replaceFirst("SEND LIST ", "");
-						if(s.matches("0")){
-							s.replaceFirst("0 ", "");
-							Integer candNr = new Integer(s);
-							System.out.println(candidates[candNr] + "won! Voting ended.");
-							try {
-								//TODO
-								candNr.wait();
-							} catch (InterruptedException e){
-								
-							}
-						}
-						
-						s.replaceFirst("REM_TIME ", "");
-						Pattern pat=Pattern.compile("\\d+");
-						Matcher mat=pat.matcher(s);
-						
-						mat.find();
-						setAndWriteTimeRemaining(mat.group());
-						mat.find();
-						int candidatesPresentQuantity = new Integer(mat.group());
-						System.out.println("All candidates you voted on have lost. Remaining candidates are:");
-						for(int j=1; j<=candidatesQuantity; j++)
-						{
-							candidates[j].exists = false;
-						}
-						for(int j=0; j<candidatesPresentQuantity ; ++j)
-						{
-							mat.find();
-							Integer candNr = new Integer(mat.group());
-							candidates[candNr].exists = true;
-							System.out.println(candidates[candNr].name);
-						}
+						receiveList(s, false);
 					}
 				}	
 			//\VOTING
@@ -293,7 +273,48 @@ public class ClientApp
 			System.out.println("no niefajnie");
 			e.printStackTrace();
 		}
-		
+	}
 
+/*******************************************************************/
+
+	static void receiveList(String s, boolean afterEmptyVoting)
+	{
+		System.out.println(s);
+		s = s.replaceFirst("SEND LIST ", "");
+		if(s.matches("1")){
+			s = s.replaceFirst("1 ", "");
+			Integer candNr = new Integer(s);
+			System.out.println(candidates[candNr] + "won! Voting ended.");
+			try {
+				//TODO
+				candNr.wait();
+			} catch (InterruptedException e){
+				
+			}
+		}
+		
+		s = s.replaceFirst("REM_TIME ", "");
+		Pattern pat=Pattern.compile("\\d+");
+		Matcher mat=pat.matcher(s);
+		
+		mat.find();
+		setAndWriteTimeRemaining(mat.group());
+		mat.find();
+		int candidatesPresentQuantity = new Integer(mat.group());
+		if(afterEmptyVoting)
+			System.out.println("This round has ended! Remaining candidates are:");
+		else
+			System.out.println("All candidates you voted on have lost. Remaining candidates are:");
+		for(int j=1; j<=candidatesQuantity; j++)
+		{
+			candidates[j].exists = false;
+		}
+		for(int j=0; j<candidatesPresentQuantity ; ++j)
+		{
+			mat.find();
+			Integer candNr = new Integer(mat.group());
+			candidates[candNr].exists = true;
+			System.out.println(candidates[candNr].name);
+		}
 	}
 }
