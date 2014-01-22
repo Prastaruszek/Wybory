@@ -36,7 +36,7 @@ public class ServerThread implements Runnable {
 			myId = PasswordProtocol.vertify(inFromClient, toClient, LocalServerApp.loginsPasswordsStore);
 			if(myId == -1)
 				return;
-			System.out.println("to jest to: " + myId);
+			//System.out.println("to jest to: " + myId);
 			/*s=inFromClient.readLine();
 			System.out.println(s);
 			if(s==null || !s.equals("HELLO")){
@@ -87,7 +87,7 @@ public class ServerThread implements Runnable {
 			while(true){
 				int temp_tour=LocalServerApp.curtur;
 				s=inFromClient.readLine();
-				System.out.println(s);
+				//System.out.println(s);
 				if(s==null || !s.matches("VOTE( -?\\d+)+")){
 					System.out.println("bad hacker\n");
 					inFromClient.close();
@@ -117,14 +117,14 @@ public class ServerThread implements Runnable {
 							votes.add(temp);
 					}
 					if(mat.find()){
-						System.out.println("bad protocol");
+						//System.out.println("bad protocol");
 						inFromClient.close();
 						toClient.close();
 						return;
 					}
 					List<Integer> accepted=LocalServerApp.candidatesBank.verifyVotes(votes,myId.intValue());
 					toClient.write("VOTE OK " + accepted.size());
-					System.out.println("accepting vote");
+					//System.out.println("accepting vote");
 					toClient.flush();
 					for(Integer i: accepted){
 						toClient.write(" "+i.toString());
@@ -145,7 +145,7 @@ public class ServerThread implements Runnable {
 					}
 				}
 				if(LocalServerApp.win){
-					System.out.println("odded");
+					//System.out.println("odded");
 					toClient.write("SEND LIST 1 ");
 					toClient.flush();
 					toClient.write(LocalServerApp.winner+"\n");
@@ -154,12 +154,12 @@ public class ServerThread implements Runnable {
 				}
 				temp_tour++;
 				toClient.write("SEND LIST REM_TIME " + LocalServerApp.end_of_turn + " ");
-				System.out.println("Sendeing List to:" + myId);
+				//System.out.println("Sendeing List to:" + myId);
 				toClient.flush();
 				toClient.write(new Integer((LocalServerApp.toures.get(LocalServerApp.curtur)).size())+" ");
 				toClient.flush();
 				for(Candidate c: LocalServerApp.toures.get(LocalServerApp.curtur)){
-					System.out.println(c);
+					//System.out.println(c);
 					toClient.write(c.Id.toString()+" ");
 					toClient.flush();
 				}
@@ -171,9 +171,9 @@ public class ServerThread implements Runnable {
 			//\VOTING
 		}
 		catch(IOException e){
-			System.out.println(e);
+			//System.out.println(e);
 		}
-		System.out.println("petelicki");
+		//System.out.println("petelicki");
 	}
 		
 }

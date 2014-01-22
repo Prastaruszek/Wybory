@@ -63,9 +63,9 @@ public class MainServerCommunicationThread extends MainServerThread{
 			while(true)
 			{
 				s = input.readLine();
-				System.out.println(s);
+				//System.out.println(s);
 				s=s.replaceFirst("VOTES_COUNTED ", "");
-				System.out.println(s);
+				//System.out.println(s);
 				Pattern pat=Pattern.compile("\\d+");
 				Matcher mat=pat.matcher(s);
 				
@@ -103,8 +103,8 @@ public class MainServerCommunicationThread extends MainServerThread{
 			}
 		}
 		catch(IOException e){
-			e.printStackTrace();
-			System.out.println(e);
+			//e.printStackTrace();
+			//System.out.println(e);
 		}
 	}
 }

@@ -46,10 +46,7 @@ public class MSComunicationThread implements Runnable {
 			read_time(input);
 			
 			s = input.readLine();
-			System.out.println(s);
-			System.out.println("Candidates are:");
 			s = input.readLine();
-			System.out.println(s);
 			LinkedList<Candidate> tempCand=new LinkedList<Candidate>();
 			int size=Integer.parseInt(s);
 			for(int i=0; i<size; ++i){
@@ -60,7 +57,6 @@ public class MSComunicationThread implements Runnable {
 							sca.next(),
 							new Integer(s.replaceAll("\\D+", ""))));
 				sca.close();
-				System.out.println(s);
 			}
 			LocalServerApp.candidatesBank=new CandidatesBank(tempCand, 100);
 			while(true){
@@ -74,21 +70,17 @@ public class MSComunicationThread implements Runnable {
 				}
 				do{
 					List<Integer> li=LocalServerApp.candidatesBank.countVotes();
-					System.out.println("counted");
 					output.write("VOTES_COUNTED");
 					output.flush();
 					int j=0;
 					for(Integer i: li){
 						output.write(" "+i);
 						output.flush();
-						System.out.write(i);;
 						++j;
 					}
 					output.write("\n");
 					output.flush();
-					System.out.println(j);
 					s=input.readLine();
-					System.out.println(s);
 					if(s.matches("LOOSER .*")){
 						LocalServerApp.candidatesBank.loses(Integer.parseInt(s.replaceFirst("LOOSER ", "")));
 						
@@ -114,7 +106,7 @@ public class MSComunicationThread implements Runnable {
 						
 						return;
 					}
-					System.out.println("Czy mam przyspieszyc?"+LocalServerApp.candidatesBank.canSendImmediatly);
+					//System.out.println("Czy mam przyspieszyc?"+LocalServerApp.candidatesBank.canSendImmediatly);
 				}while(LocalServerApp.candidatesBank.canSendImmediatly);
 			}
 		} catch (UnknownHostException e) {

@@ -79,7 +79,6 @@ public class CandidatesBank {
 			//System.out.println("tutaj");
 					
 			while(li.size()>0 && !tempCandidates.contains(new Candidate("","",li.get(0)))){
-				System.out.println("problem sprawia"+li.get(0));
 				li.remove(0);
 			}
 			if(li.size()==0 && !empty){
@@ -114,8 +113,6 @@ public class CandidatesBank {
 		return result;
 	}
 	public List<Integer> verifyVotes(List<Integer> u_votes, int user_id){
-		System.out.println("veryfying" + user_id);
-		System.out.println(u_votes);
 		List<Integer> accepted=new LinkedList<Integer>();
 		Iterator<Integer> it=u_votes.listIterator();
 		while(it.hasNext()){
@@ -140,7 +137,6 @@ public class CandidatesBank {
 				}
 			}
 			catch(InterruptedException e){
-				System.out.println(e);
 			}
 			finally{
 			}

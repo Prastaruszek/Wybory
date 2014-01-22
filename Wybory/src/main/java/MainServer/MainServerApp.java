@@ -38,7 +38,7 @@ public class MainServerApp {
 			}
 		}
 		catch(IOException e){
-			System.out.println(e+"tata");
+			//System.out.println(e+"tata");
 		}
 	}
 }

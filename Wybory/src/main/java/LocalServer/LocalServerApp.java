@@ -54,7 +54,6 @@ public class LocalServerApp {
 			}
 		}
 		catch(IOException e){
-			System.out.println(e+"tata");
 		}
 	}
 }
