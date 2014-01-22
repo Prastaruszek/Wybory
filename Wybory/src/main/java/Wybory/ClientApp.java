@@ -58,6 +58,7 @@ public class ClientApp
 	static void writeTimeRemaining()
 	{
 		Long time = end_of_turn - new Date().getTime();
+		time/=1000;
 		System.out.println("Time remaining to send fist part of votes: " + time/60 + " minutes " + time%60 + " seconds.");
 	}
 
