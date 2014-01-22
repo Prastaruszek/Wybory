@@ -11,7 +11,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
@@ -246,14 +245,24 @@ public class ClientApp
 					{
 						System.out.println(s);
 						s = s.replaceFirst("SEND LIST ", "");
-						System.out.println("All candidates you voted on have lost. Remaining candidates are:");
 						
 						Pattern pat=Pattern.compile("\\d+");
 						Matcher mat=pat.matcher(s);
 						
 						mat.find();
 						int candidatesPresentQuantity = new Integer(mat.group());
-						System.out.println(candidatesPresentQuantity + " " + candidatesQuantity);
+						if(candidatesPresentQuantity == 0){
+							mat.find();
+							Integer candNr = new Integer(mat.group());
+							System.out.println(candidates[candNr] + "won! Voting ended.");
+							try {
+								//TODO
+								candNr.wait();
+							} catch (InterruptedException e){
+								
+							}
+						}
+						System.out.println("All candidates you voted on have lost. Remaining candidates are:");
 						for(int j=1; j<=candidatesQuantity; j++)
 						{
 							candidates[j].exists = false;
