@@ -17,9 +17,16 @@ import javax.net.ssl.SSLSocketFactory;
 
 import LoginsAndPasswords.PasswordProtocol;
 
-
+/**
+ * The client-application. Enables user to login and, if the Local Server is working
+ *
+ */
 public class ClientApp 
 {
+	/**
+	 * Contains info about the candidate
+	 *
+	 */
 	static class Candidate
 	{
 		String name;
@@ -34,7 +41,10 @@ public class ClientApp
 	static Candidate[] candidates = new Candidate[100];
 	static Integer candidatesQuantity;
 	static Long end_of_turn;
-	
+	/**
+	 * Sets the time of the end of the round, and writes the times remaining in the screen.
+	 * @param s string describing the time next round is finishing.
+	 */
 	static void setAndWriteTimeRemaining(String s)
 	{
 		Long time = new Long(s)-new Date().getTime();
@@ -42,6 +52,9 @@ public class ClientApp
 		time/=1000;
 		System.out.println("Time remaining to send fist part of votes: " + time/60 + " minutes " + time%60 + " seconds.");
 	}
+	/**
+	 * Writes remaining time on the screen
+	 */
 	static void writeTimeRemaining()
 	{
 		Long time = end_of_turn - new Date().getTime();

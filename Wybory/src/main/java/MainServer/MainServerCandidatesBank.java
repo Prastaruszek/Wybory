@@ -7,6 +7,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Contains informations about Canidates
+ *
+ */
 class MSCandidate{
 	String forename;
 	String name;
@@ -29,7 +33,10 @@ class MSCandidate{
 	}
 }
 
-
+/**
+ * Here the informations about current result and candidates are stored.
+ *
+ */
 public class MainServerCandidatesBank {
 	private List<MSCandidate> candidatesList;
 	private List<MSCandidate> tempCandidates;

@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * It's the class contatining the authentication protocol,
+ *
+ */
 public class PasswordProtocol {
 	
 	public static int vertify(BufferedReader input, BufferedWriter output,

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
- * Klasa przechowująca informacje o kandydacie
+ * Constains informations about the candidate
  * 
  * 
  *
@@ -19,14 +19,11 @@ class Candidate{
 	Integer Id;
 	
 	/**
-    *
-    * Konstruuje kandydata o 
-    *
-    * 
-    *
-    * @param message String variable to be printed
-    * @since version 1.00
-    */
+	 * Constructs candidate with the given forename, name and id
+	 * @param forename
+	 * @param name
+	 * @param id
+	 */
 	
 	public Candidate(String forename, String name, int id){
 		this.forename=forename;
@@ -35,9 +32,17 @@ class Candidate{
 	}
 	
 	
+	/**
+	 * @return String representation of the given candidate in format [Id] [forename] [name]
+	 */
 	public String toString(){
 		return Id+". "+forename+" "+name+"\n";
 	}
+	/**
+	 * 
+	 * @return true if and only if the given object is an candidate with
+	 * the same id
+	 */
 	public boolean equals(Object o){
 		if(o==null|| !(o instanceof Candidate)){
 			return false;
@@ -46,11 +51,21 @@ class Candidate{
 	}
 }
 
+/**
+ * Constains informations about the elector
+ *
+ */
 class Client{
 	String nick;
 	int id;
 }
-
+/**
+ * Class responsible for synchronising and managing incoming votes from electors and
+ * incoming results from server. It also count votes, here are all the statistics from 
+ * the local area
+ * @author piotr
+ *
+ */
 public class LocalServerCandidatesBank {
 	private List<Candidate> candidatesList;
 	private List<Candidate> tempCandidates;
@@ -61,6 +76,12 @@ public class LocalServerCandidatesBank {
 	private boolean write=true;
 	private boolean[] active;
 	private int numberOfVoters;
+	/**
+	 * Constructs the CandidatesBank with the given candidatesList, who will start
+	 * in ellections and the given electors number from this local area
+	 * @param candidatesList
+	 * @param n
+	 */
 	public LocalServerCandidatesBank(LinkedList<Candidate> candidatesList, int n){
 		this.candidatesList=candidatesList;
 		tempCandidates=new LinkedList<Candidate>();
@@ -80,10 +101,19 @@ public class LocalServerCandidatesBank {
 		}
 		this.numberOfVoters=n;
 	}
+	/**
+	 * Returns view on candidatesList that can not be modyfied
+	 * @return
+	 */
 	public List<Candidate> getTempCandidatesList(){
 		return Collections.unmodifiableList(tempCandidates);
 	}
-	/* to trzeba zmienić*/
+	/**
+	 * The function used to inform the candidatesBank about the candidate
+	 * who lost the previous round. It also decides wheather the next round should
+	 * be conducted immediatly or not
+	 * @param j Id of the candidate, who has lost the previous round
+	 */
 	public void loses(Integer j){
 		List<Integer> sendList=new LinkedList<Integer>();
 		tempCandidates.remove(new Candidate("","",j));
@@ -108,6 +138,11 @@ public class LocalServerCandidatesBank {
 			Integer.class.notifyAll();
 		}
 	}
+	/**
+	 * Function counting votes after round have ended
+	 * @return List of Integers representing the current situation. Results of Candidates who have not lost yet
+	 * in order consistent with Id's order .
+	 */
 	public List<Integer> countVotes(){
 		List<Integer> result=new LinkedList();
 		int[] count=new int[candidatesList.size()+1];
@@ -128,6 +163,12 @@ public class LocalServerCandidatesBank {
 		}
 		return result;
 	}
+	/**
+	 * The function used to commit single client votes and save it in Candidates Bank.
+	 * @param u_votes
+	 * @param user_id
+	 * @return The List of votes (candidates Id's), which where accepted according to the current situation.
+	 */
 	public List<Integer> verifyVotes(List<Integer> u_votes, int user_id){
 		List<Integer> accepted=new LinkedList<Integer>();
 		Iterator<Integer> it=u_votes.listIterator();

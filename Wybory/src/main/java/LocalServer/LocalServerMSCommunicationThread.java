@@ -21,6 +21,12 @@ import javax.net.ssl.SSLSocketFactory;
 import LoginsAndPasswords.PasswordEncryption;
 import LoginsAndPasswords.PasswordProtocol;
 
+/**
+ * This is the Thread responsible for contacting with Main Server, sending there partial 
+ * results and receiving the final results of the rounds.
+ *
+ */
+
 public class LocalServerMSCommunicationThread implements Runnable {
 	
 	private void read_time(BufferedReader input) throws IOException{

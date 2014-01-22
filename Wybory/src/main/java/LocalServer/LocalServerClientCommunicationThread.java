@@ -18,7 +18,11 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 import LoginsAndPasswords.PasswordProtocol;
-
+/**
+ * This is the class responsible for comunication with client, registering, receiving votes from him
+ * sending him all informations required to conduct the elections
+ *
+ */
 public class LocalServerClientCommunicationThread implements Runnable {
 	SSLSocket socket;
 	public LocalServerClientCommunicationThread(SSLSocket socket){

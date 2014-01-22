@@ -16,6 +16,11 @@ import LoginsAndPasswords.LoginsPasswordsStore;
 import LoginsAndPasswords.PasswordEncryption;
 import LoginsAndPasswords.PasswordProtocol;
 
+/**
+ * Thread used to communicate with LocalServers: authorizing, sending the remaining time receiving and
+ * sending results
+ *
+ */
 public class MainServerCommunicationThread extends MainServerThreadAbstractClass{
 	
 	SSLSocket socket;

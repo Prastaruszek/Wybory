@@ -15,7 +15,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
+/**
+ * Here is a main functions, which contains the local server loop accepting connections.
+ *
+ */
 public class LocalServerApp {
 	public static LocalServerCandidatesBank candidatesBank;
 	public static Long end_of_turn;

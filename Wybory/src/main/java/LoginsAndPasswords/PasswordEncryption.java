@@ -8,6 +8,11 @@ import java.util.Arrays;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/**
+ * Class used to Manage passwords, check whether it is in the system or not. Here are methods 
+ * necessary to keep the passwords save.
+ *
+ */
 
 public class PasswordEncryption {
 	public static boolean checkPassword(byte[] attemptedPassword, byte[] correctPassword, byte[] salt){

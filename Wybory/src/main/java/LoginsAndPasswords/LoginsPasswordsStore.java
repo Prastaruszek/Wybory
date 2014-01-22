@@ -2,7 +2,10 @@ package LoginsAndPasswords;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-
+/**
+ * Here all logins, passwords and salts are stored. 
+ *
+ */
 public class LoginsPasswordsStore {
 	public int numberOfUsers = 100;	
 	public String logins[] = new String[numberOfUsers];

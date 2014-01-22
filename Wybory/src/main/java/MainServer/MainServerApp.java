@@ -10,6 +10,10 @@ import javax.net.ssl.SSLSocket;
 import LoginsAndPasswords.LoginsPasswordsStore;
 import LoginsAndPasswords.PasswordEncryption;
 
+/**
+ * Here is the Main Server loop used to accept connections from local servers.
+ *
+ */
 public class MainServerApp {
 	static int numberOfThreads = 0;
 	static int roundTime = 20000, initializationTime = 40000;
