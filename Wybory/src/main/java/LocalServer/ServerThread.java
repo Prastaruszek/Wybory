@@ -89,11 +89,24 @@ public class ServerThread implements Runnable {
 				int temp_tour=LocalServerApp.curtur;
 				s=inFromClient.readLine();
 				System.out.println(s);
-				if(s==null || !s.matches("VOTE( \\d+)+")){
-					System.out.println("bad");
+				if(s==null || !s.matches("VOTE( \\d+)+") && !s.matches("GET LIST")){
+					System.out.println("bad hacker\n");
 					inFromClient.close();
 					toClient.close();
 					return;
+				}
+				if(s.matches("VOTE -1.*")){
+					if(LocalServerApp.win){
+						toClient.write("VOTE OK -1\n");
+						toClient.flush();
+						return;
+					}
+					else{
+						continue;
+					}
+				}
+				if(s.matches("GET LIST")){
+					
 				}
 				List<Integer> votes=new LinkedList<Integer>();
 				s=s.replaceFirst("VOTE ", "");
