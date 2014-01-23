@@ -115,7 +115,7 @@ public class MainServerCommunicationThread extends MainServerThreadAbstractClass
 		}
 		catch(IOException e){
 			//e.printStackTrace();
-			//System.out.println(e);
+			
 		}
 	}
 }

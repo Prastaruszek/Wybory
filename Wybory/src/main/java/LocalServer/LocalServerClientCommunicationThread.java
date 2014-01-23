@@ -40,32 +40,7 @@ public class LocalServerClientCommunicationThread implements Runnable {
 			myId = PasswordProtocol.vertify(inFromClient, toClient, LocalServerApp.loginsPasswordsStore);
 			if(myId == -1)
 				return;
-			//System.out.println("to jest to: " + myId);
-			/*s=inFromClient.readLine();
-			System.out.println(s);
-			if(s==null || !s.equals("HELLO")){
-				toClient.close();
-				inFromClient.close();
-				return;
-			}
-			toClient.write("HELLO. WHO ARE YOU?\n");
-			toClient.flush();
-			s=inFromClient.readLine();
-			if(s==null){
-				toClient.close();
-				inFromClient.close();
-				return;
-			}
-			if(!s.matches("LOGIN: .+, PASS: .+")){
-				toClient.write("BAD LOGIN OR PASS\n");
-			}
-			String login=s.replaceFirst("LOGIN: ", "").replaceFirst(",.+","");
-			String pass=s.replaceFirst(".+, PASS: ", "");
-			Integer myId=0;
-			System.out.println(login + " " + pass);
-			toClient.write("LOGIN OK\n");
-			toClient.flush();
-			*/
+			
 			//\AUTHENTICATION
 			//SHOW CANDIDATES
 			

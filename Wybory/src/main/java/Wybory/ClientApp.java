@@ -77,11 +77,8 @@ public class ClientApp
 				portNr = new Integer(s);
 			SSLSocketFactory mySocketFactory=(SSLSocketFactory)SSLSocketFactory.getDefault();
 			socket=(SSLSocket)mySocketFactory.createSocket("localhost", portNr);
-			//System.out.println(ssl.getEnableSessionCreation()+"ramada");
-			//ssl.setEnabledProtocols(new String[]{"SSLv3", "TLSv1"});
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		catch(IOException e){
 			e.printStackTrace();
@@ -96,36 +93,8 @@ public class ClientApp
 			String s;
 			if(!PasswordProtocol.attempt(input, output, sc))
 				return;
-			/*output.write("HELLO\n");
-			output.flush();
-			String s, t;
-			s=input.readLine();
-			System.out.println(s);
-			if(!s.equals("HELLO. WHO ARE YOU?")){
-				System.out.println("PROTOCOL FAILED");
-				input.close();
-				output.close();
-				return;
-			}
 			
-			//AUTHENTICATION
-			while(true)
-			{
-				System.out.println("login: ");
-				//s = sc.nextLine();
-				s = "a";
-				System.out.println("password: ");
-				//t = sc.nextLine();
-				t = "b";
-				output.write("LOGIN: " + s + ", PASS: " + t + "\n");
-				output.flush();
-				s = input.readLine();
-				if(s.equals("LOGIN OK"))
-					break;
-				System.out.println("Bad login or password.\n");
-			}
-			//\AUTHENTICATION
-			*/
+			
 			
 			//SHOW CANDIDATES
 

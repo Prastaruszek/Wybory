@@ -31,15 +31,12 @@ public class LocalServerApp {
 	static Integer winner;
 	static Integer candidatesNumber=7;
 
-	public static void loadCandidates(){
-	}
 	public static void main(String args[]){	
 		try{
 	    	System.setProperty("javax.net.ssl.keyStore","LsKeystore");
 			System.setProperty("javax.net.ssl.keyStorePassword","admin12");
 			System.setProperty("javax.net.ssl.trustStore","mySrvKeystore");
 			System.setProperty("javax.net.ssl.trustStorePassword","123456");
-			loadCandidates();
 			SSLServerSocketFactory SocketFactory=(SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
 			Integer portNr = 30001;
 			System.out.println("Choose port number. Press ENTER to set default number [30001].");
