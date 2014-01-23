@@ -41,7 +41,9 @@ public class PasswordProtocol {
 			String login=s.replaceFirst("LOGIN: ", "").replaceFirst(",.+","");
 			*/
 			if(!s.matches("LOGIN: .*")){
-				output.write("PROTOCOL ERROR\n");
+				output.close();
+				input.close();
+				return -1;
 			}
 			String login=s.replaceFirst("LOGIN: ", "");
 		
@@ -65,6 +67,12 @@ public class PasswordProtocol {
 			output.flush();	
 			
 			s = input.readLine();
+			if(!s.matches("PASS: .*")){
+				output.close();
+				input.close();
+				return -1;
+			}
+			
 			String pass=s.replaceFirst("PASS: ", "");
 			Pattern pat = Pattern.compile("-?\\d+");
 			Matcher mat = pat.matcher(pass); 
