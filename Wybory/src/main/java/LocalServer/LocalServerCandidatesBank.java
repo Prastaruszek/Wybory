@@ -188,7 +188,6 @@ public class LocalServerCandidatesBank {
 					votes.get(user_id).add(i);
 					accepted.add(i);
 				daLock.readLock().unlock();
-				//TU JEST WASKIE GARDLO TRZEBA TO ZMIENIC
 				synchronized(this){
 					notifyAll();
 				}

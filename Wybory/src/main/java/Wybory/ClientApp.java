@@ -204,7 +204,7 @@ public class ClientApp
 						break;
 					}
 					else if (s.equals("n"))
-						break;
+						continue vtLoop;
 				}
 				
 				for (int i=0; i<2; i++)
