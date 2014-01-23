@@ -73,7 +73,7 @@ public class MainServerApp {
 				}
 			}
 			
-			System.out.println("You can start Local Servers and Clients now.");
+			System.out.println("Server succesfully started.");
 			time=new Date().getTime()+roundTime + initializationTime;
 			
 			//welcomeSocket.setEnabledCipherSuites(new String[] {"TLS_RSA_WITH_AES_128_CBC_SHA"});
