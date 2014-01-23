@@ -30,7 +30,7 @@ public class MainServerCommunicationThread extends MainServerThreadAbstractClass
 		this.socket=socket;
 	}
 	private void write_time(BufferedWriter output) throws IOException{
-		output.write("REM_TIME: ");
+		output.write("DEADLINE ");
 		output.flush();
 		output.write(MainServerApp.time+"\n");
 		output.flush();

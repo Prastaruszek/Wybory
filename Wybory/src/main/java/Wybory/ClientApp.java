@@ -131,7 +131,7 @@ public class ClientApp
 
 				
 			s = input.readLine();
-			s = s.replaceFirst("REM_TIME ", "");
+			s = s.replaceFirst("DEADLINE ", "");
 			setAndWriteTimeRemaining(s);
 			
 			s = input.readLine();
@@ -307,7 +307,7 @@ public class ClientApp
 			
 		}
 		
-		s = s.replaceFirst("REM_TIME ", "");
+		s = s.replaceFirst("DEADLINE ", "");
 		Pattern pat=Pattern.compile("\\d+");
 		Matcher mat=pat.matcher(s);
 		mat.find();

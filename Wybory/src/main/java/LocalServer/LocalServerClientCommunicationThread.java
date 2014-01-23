@@ -69,7 +69,7 @@ public class LocalServerClientCommunicationThread implements Runnable {
 			//\AUTHENTICATION
 			//SHOW CANDIDATES
 			
-			toClient.write("REM_TIME ");
+			toClient.write("DEADLINE ");
 			toClient.flush();
 			toClient.write(LocalServerApp.end_of_turn+"\n");
 			toClient.flush();
@@ -157,7 +157,7 @@ public class LocalServerClientCommunicationThread implements Runnable {
 					return;
 				}
 				temp_tour++;
-				toClient.write("SEND LIST REM_TIME " + LocalServerApp.end_of_turn + " ");
+				toClient.write("SEND LIST DEADLINE " + LocalServerApp.end_of_turn + " ");
 				//System.out.println("Sendeing List to:" + myId);
 				toClient.flush();
 				toClient.write(new Integer((LocalServerApp.toures.get(LocalServerApp.curtur)).size())+" ");

@@ -31,7 +31,7 @@ public class LocalServerMSCommunicationThread implements Runnable {
 	
 	private void read_time(BufferedReader input) throws IOException{
 		String s = input.readLine();
-		long time=Long.parseLong(s.replaceFirst("REM_TIME: ", ""));
+		long time=Long.parseLong(s.replaceFirst("DEADLINE ", ""));
 		LocalServerApp.end_of_turn=time;
 	}
 	public void run(){
