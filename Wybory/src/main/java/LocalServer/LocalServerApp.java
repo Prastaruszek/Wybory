@@ -29,6 +29,7 @@ public class LocalServerApp {
 	static LoginsPasswordsStore loginsPasswordsStore = new LoginsPasswordsStore("u", "p");
 	static boolean win;
 	static Integer winner;
+	static Integer candidatesNumber=7;
 
 	public static void loadCandidates(){
 	}

@@ -21,10 +21,10 @@ public abstract class MainServerThreadAbstractClass implements Runnable {
 		LinkedList<MSCandidate> cl=new LinkedList<MSCandidate>();
 		cl.add(new MSCandidate("Piotr", "Kawałek",1));
 		cl.add(new MSCandidate("Krzysztof", "Kleiner",2));
-		cl.add(new MSCandidate("Edward", "Szczypka",3));
-		cl.add(new MSCandidate("Paweł", "Maria",4));
-		cl.add(new MSCandidate("Maria", "Idziak", 5));
-		cl.add(new MSCandidate("Zając", "Zaionc", 6));
+		cl.add(new MSCandidate("Mateusz", "Twarog",3));
+		cl.add(new MSCandidate("Paweł", "Rokita",4));
+		cl.add(new MSCandidate("Maria", "Grob", 5));
+		cl.add(new MSCandidate("Zając", "Zając", 6));
 		cl.add(new MSCandidate("Krul", "Korwin",7));
 		candidatesBank=new MainServerCandidatesBank(cl);
 	}

@@ -48,7 +48,7 @@ public class LocalServerMSCommunicationThread implements Runnable {
 			String s;
 			if(!PasswordProtocol.attempt(input, output, LocalServerApp.sc))
 				return;
-			
+			System.out.println("Ready");
 			read_time(input);
 			
 			s = input.readLine();
